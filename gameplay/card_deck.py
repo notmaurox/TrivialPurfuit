@@ -6,4 +6,3 @@ class CardDeck:
         self.cards = []
         for question in range(1):
             self.cards.append(Card())
-            

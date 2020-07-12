@@ -4,3 +4,6 @@ class Card:
         self.type = "TYPE"
         self.question = "QUESITON"
         self.answer = "ANSWER"
+        
+    def card_to_deck_interface():
+        print("test")
