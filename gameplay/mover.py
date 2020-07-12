@@ -1,3 +1,8 @@
+import logging
+import sys
+LOG = logging.getLogger(__name__)
+LOG.setLevel(logging.INFO)
+logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
 class mover:
     def __init__(self, mover_color, start_position: int):
@@ -11,12 +16,12 @@ class mover:
     # or passing the last game position on a spoke and jumping back to 1.
     def move(self, delta):
         next_position = self.current_position + delta # this is simplified!! PUT LOGIC HERE FOR JUMPING
-        print("Moving the player's mover from position", self.current_position, "to", next_position)
+        LOG.info("Moving the player's mover from position " + self.current_position + " to " + next_position)
         self.current_position = next_position
 
     def add_wedge(self, color):
-        print("Adding wedge")
+        LOG.info("Adding wedge")
         if color not in ["red", "blue", "white", "green"]:
-            print("Incorrect color type!")
+            LOG.info("Incorrect color type!")
         self.wedges.append(color)
 

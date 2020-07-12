@@ -17,3 +17,6 @@ class CardDeck:
             
     def load_questions_from_file(self, path: str):
         pass
+            
+    def load_questions_from_file(self, path: str):
+        pass
