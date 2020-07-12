@@ -1,5 +1,5 @@
 from dice import Die
-from player import Player
+from players import Player
 from card_deck import CardDeck
 from typing import List
 
