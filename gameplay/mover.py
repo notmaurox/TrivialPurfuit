@@ -16,7 +16,7 @@ class mover:
     # or passing the last game position on a spoke and jumping back to 1.
     def move(self, delta):
         next_position = self.current_position + delta # this is simplified!! PUT LOGIC HERE FOR JUMPING
-        LOG.info("Moving the player's mover from position " + self.current_position + " to " + next_position)
+        LOG.info("Moving the player's mover from position " + str(self.current_position) + " to " + str(next_position))
         self.current_position = next_position
 
     def add_wedge(self, color):

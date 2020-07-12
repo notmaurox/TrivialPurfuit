@@ -12,7 +12,7 @@ class CardDeck:
     
     def __init__(self):
         self.cards = []
-        for question in range(1):
+        for question in range(25):
             self.cards.append(Card())
             
     def load_questions_from_file(self, path: str):
