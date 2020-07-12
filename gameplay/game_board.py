@@ -1,6 +1,6 @@
 from dice import Die
 from player import Player
-from card_deck import CardDeck
+from card_deck import CardDecks
 from typing import List
 from game_position import GamePositions
 
