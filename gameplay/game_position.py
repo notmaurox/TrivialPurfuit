@@ -4,10 +4,12 @@ import sys
 LOG = logging.getLogger(__name__)
 LOG.setLevel(logging.INFO)
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
+LOG.info("Call to game_position")
 
 class GamePosition:
     
     def __init__(self, i, i_next_1, i_next_2=None):
+        LOG.info("Call to GamePosition")
         #LOG.info('Created GamePosition with index {}'.format(i))
         self.category = "CATEGORY_TYPE"
         self.location_index = i
@@ -15,12 +17,13 @@ class GamePosition:
         self.position_type = "OUTSIDE/SPOKE/CENTER"
 
 class GamePositions:
-    
     def __init__(self):
+        LOG.info("Call to GamePosition")
         self.perimeter_len = 30
         self.internal_spoke_len = 10
         self.game_positions = []
         self.number_of_spokes = 4
+
         # Initialize perimeter
         LOG.info("Initializing perimeter game positions")
         for pos in range(self.perimeter_len):

@@ -7,9 +7,7 @@ logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 class Card:
     
     def __init__(self):
+        LOG.info("Call to Card")
         self.type = "TYPE"
         self.question = "QUESITON"
         self.answer = "ANSWER"
-        
-    def card_to_deck_interface(self):
-        LOG.info("test")

@@ -35,7 +35,7 @@ class TestInteractions(unittest.TestCase):
         # Create a gameboard with 4 players, 1 die of six sides, and card decks 4 card decks of 25 cards each
         print(r"Creating gameboard.  Players: 4, names: p1, p2, p3, p4")
         test_game_board = GameBoard(
-            num_players =4,
+            num_players=4,
             player_names=["p1", "p2", "p3", "p4"]
         )
         print("Testing that four players were created")
@@ -55,6 +55,7 @@ class TestInteractions(unittest.TestCase):
         face_value = die.roll()
         self.assertGreater(face_value, 0)
         self.assertLessEqual(face_value, 6)
+
 
 if __name__ == '__main__':
     unittest.main()
