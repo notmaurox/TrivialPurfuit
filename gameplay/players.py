@@ -11,7 +11,7 @@ class Players:
         self.players = []
 
     def add_player(self, name, mover_color, start_pos):
-        LOG.info("Adding new player named" + name + " of color " + mover_color)
+        LOG.info("Adding new player named " + name + " of color " + mover_color)
         self.players.append(Player(name, mvr.mover(mover_color, start_pos)))
 
     def get_player_count(self):

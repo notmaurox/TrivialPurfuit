@@ -20,15 +20,22 @@ class GamePosition:
 class GamePositions:
     
     def __init__(self):
-        self.perimeter_len = 50
+        self.perimeter_len = 30
+        self.internal_spoke_len = 10
         self.game_positions = []
-        # Inititalize perimeter
-        LOG.info("Initialized perimeter positions")
+        self.number_of_spokes = 4
+        # Initialize perimeter
+        LOG.info("Initializing perimeter game positions")
         for pos in range(self.perimeter_len):
-            self.game_positions.append(GamePosition(pos, pos+1, None))
-            
+            self.game_positions.append(GamePosition(pos+1, pos+2, None))  # avoiding zeroth index
+
         # Intitialize internal spokes
-        self._initialize_interinal_positions(self.game_positions)
-        
-    def _initialize_interinal_positions(self, game_positions: List[GamePosition]):
-        LOG.info("Initialized internal positions")
+        LOG.info("Initializing internal spoke game positions")
+        for pos in range(self.perimeter_len,
+                         self.internal_spoke_len * self.number_of_spokes):  # start counting after the perimeter count
+            self.game_positions.append(GamePosition(pos, pos + 1, None))
+
+        # Initialize special cases
+        self.game_positions[self.perimeter_len].next_location_index = 1  # wrap perimeter around to start
+
+

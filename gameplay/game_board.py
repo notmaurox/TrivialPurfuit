@@ -7,6 +7,7 @@ from game_position import GamePositions
 class GameBoard:
     
     def __init__(self, num_players: int, player_names: List[str]):
+        print("Creating a game board.")
         self.players = Players()
         self.card_decks = CardDecks()
         self.die = Die(num_sides=6)
