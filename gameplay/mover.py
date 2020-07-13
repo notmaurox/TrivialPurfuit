@@ -6,7 +6,7 @@ logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
 class mover:
     def __init__(self, mover_color, start_position: int):
-        LOG.info("Call to mover")
+        LOG.info("Call to mover.__init")
         self.current_position = start_position
         self.wedges = []  # list of wedge colors that the player has obtained
         self.onSpokes = False

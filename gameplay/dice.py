@@ -8,7 +8,7 @@ logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 class Die:
     
     def __init__(self, num_sides):
-        LOG.info("Call to Die")
+        LOG.info("Call to Die.__init__")
         self.num_sides = num_sides
 
     def roll(self):

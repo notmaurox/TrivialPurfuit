@@ -12,8 +12,7 @@ logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 class GameBoard:
     
     def __init__(self, num_players: int, player_names: List[str]):
-        LOG.info("Call to GameBoard")
-        print("Creating a game board.")
+        LOG.info("Call to GameBoard.__init__")
         self.players = Players()
         self.card_decks = CardDecks()
         self.die = Die(num_sides=6)

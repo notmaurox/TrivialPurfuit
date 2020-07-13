@@ -9,7 +9,7 @@ LOG.info("Call to game_position")
 class GamePosition:
     
     def __init__(self, i, i_next_1, i_next_2=None):
-        LOG.info("Call to GamePosition")
+        LOG.info("Call to GamePosition.__init__")
         #LOG.info('Created GamePosition with index {}'.format(i))
         self.category = "CATEGORY_TYPE"
         self.location_index = i
@@ -18,7 +18,7 @@ class GamePosition:
 
 class GamePositions:
     def __init__(self):
-        LOG.info("Call to GamePosition")
+        LOG.info("Call to GamePosition.__init__")
         self.perimeter_len = 30
         self.internal_spoke_len = 10
         self.game_positions = []
@@ -31,8 +31,10 @@ class GamePositions:
 
         # Intitialize internal spokes
         LOG.info("Initializing internal spoke game positions")
-        for pos in range(self.perimeter_len,
-                         self.internal_spoke_len * self.number_of_spokes):  # start counting after the perimeter count
+        for pos in range(
+            self.perimeter_len,
+            self.internal_spoke_len * self.number_of_spokes
+        ):  # start counting after the perimeter count
             self.game_positions.append(GamePosition(pos, pos + 1, None))
 
         # Initialize special cases

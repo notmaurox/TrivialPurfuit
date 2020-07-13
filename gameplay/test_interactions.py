@@ -9,6 +9,7 @@ from game_position import GamePosition
 class TestInteractions(unittest.TestCase):
 
     def test_game_position(self):
+        print("test_game_position")
         # Create a game position, assign it a category of History, index of 14, and link it with positions 15 and 61
         game_position = GamePosition(14, 15, 61)
         game_position.category = "History"
@@ -18,12 +19,14 @@ class TestInteractions(unittest.TestCase):
         self.assertEqual(game_position.next_location_index, [15, 61])
         
     def test_card_deck_to_card_interaction(self):
+        print("test_card_deck_to_card_interaction")
         # Create a single deck of cards of length 25
         print("Testing the card deck.")
         test_card_deck = CardDeck()
         self.assertEqual(len(test_card_deck.cards), 25)
 
     def test_player_movement(self):
+        print("test_player_movement")
         # Create a player and mover, and move its mover 10 spaces
         players = Players()
         players.add_player("Test Player", "green", 10)
@@ -32,6 +35,7 @@ class TestInteractions(unittest.TestCase):
         self.assertEqual(players.players[0].mover.current_position, 20)
 
     def test_game_board_interactions(self):
+        print("test_game_board_interactions")
         # Create a gameboard with 4 players, 1 die of six sides, and card decks 4 card decks of 25 cards each
         print(r"Creating gameboard.  Players: 4, names: p1, p2, p3, p4")
         test_game_board = GameBoard(
@@ -50,6 +54,7 @@ class TestInteractions(unittest.TestCase):
 
 
     def test_die(self):
+        print("test_die")
         print("Testing a six-sided die by creating and rolling.  The result must be between 1 and 6 (inclusive).")
         die = Die(6)
         face_value = die.roll()
