@@ -1,6 +1,8 @@
 from dice import Die
 from players import Players
 from card_deck import CardDecks
+from mover import Mover
+
 from typing import List
 from game_position import GamePositions
 import logging
@@ -13,13 +15,20 @@ class GameBoard:
     
     def __init__(self, num_players: int, player_names: List[str]):
         LOG.info("Call to GameBoard.__init__")
-        self.players = Players()
-        self.card_decks = CardDecks()
-        self.die = Die(num_sides=6)
-
+        self.players = []
+        
         for player_num in range(0, num_players):
-            self.players.add_player(player_names[player_num], "blue", 0)
-            
+            self.players.append(
+                Mover(
+                    name=name,
+                    mover_color="COLOR",
+                    start_pos_x=0,
+                    start_pos_y=0
+                )
+            )
+        
+        self.card_decks = CardDecks()
+        self.die = Die(num_sides=6)    
         self.game_positions = GamePositions()
         
     def main_gameplay_loop(self):
@@ -39,7 +48,7 @@ class GameBoard:
     def display_answer(self):
         pass
         
-    def draw_board(self)
+    def draw_board(self):
         pass
             
         

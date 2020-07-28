@@ -1,4 +1,4 @@
-import mover as mvr
+import Mover as mvr
 
 import logging
 import sys
@@ -35,3 +35,9 @@ class Player:
     def crown_winner(self):
         LOG.info("Call to Player.crown_winner")
         LOG.info("Player " + self.name + " won!")
+        
+    def move_player(self):
+        pass
+        
+    def has_won(self):
+        pass
