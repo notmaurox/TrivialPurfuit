@@ -21,5 +21,25 @@ class GameBoard:
             self.players.add_player(player_names[player_num], "blue", 0)
             
         self.game_positions = GamePositions()
+        
+    def main_gameplay_loop(self):
+        # while True
+        #   for player in Players
+        #    take_turn(player)
+        #       if game over
+        #          return
+        pass
+        
+    def take_turn(self, current_player : Player):
+        pass
+        
+    def display_question(self):
+        pass
+        
+    def display_answer(self):
+        pass
+        
+    def draw_board(self)
+        pass
             
         
