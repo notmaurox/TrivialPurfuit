@@ -39,7 +39,9 @@ class GameBoard:
         #          return
         pass
         
-    def take_turn(self, current_player : Player):
+    def present_die(self, current_player: )
+        
+    def take_turn(self, current_player: Player):
         pass
         
     def display_question(self):
