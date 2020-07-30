@@ -1,5 +1,5 @@
 from dice import Die
-from players import Players
+#from players import Players
 from card_deck import CardDecks
 from mover import Mover
 
@@ -45,9 +45,10 @@ class GameBoard:
         #          return
         pass
         
-    def present_die(self, current_player: )
+    def present_die(self, current_player: Mover):
+        pass
         
-    def take_turn(self, current_player: Player):
+    def take_turn(self, current_player: Mover):
         pass
         
     def display_question(self):

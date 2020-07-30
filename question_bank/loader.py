@@ -2,7 +2,8 @@ import logging
 import sys
 import os
 import csv
-
+from card import Card
+sys.path.append(r"../gameplay")
 LOG = logging.getLogger(__name__)
 LOG.setLevel(logging.INFO)
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
@@ -22,15 +23,10 @@ class QuestionLoader:
 
         questions = []
 
-        with open(os.path.join(path_to_question_files, "questions.txt")) as questions:
-            question_reader = csv.reader(questions, delimiter='\t')
+        with open(os.path.join(path_to_question_files, "questions.txt")) as file:
+            question_reader = csv.reader(file, delimiter='\t')
             for thisLine in question_reader:
-                questions.append(Question(thisLine[0], thisLine[1], thisLine[2]))
-
+                questions.append(Card(thisLine[0], thisLine[1], thisLine[2], thisLine[4]))
+                print(thisLine)
         return questions
 
-class Question:
-    def __init__(self, category, question, difficulty):
-        self.category = ""
-        self.question = ""
-        self.difficulty = None

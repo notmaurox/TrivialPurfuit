@@ -3,10 +3,14 @@ import unittest
 from card_deck import CardDeck
 from game_board import GameBoard
 from dice import Die
-from players import Players
-from game_position import GamePosition
-
+from mover import Mover
+from game_position import GamePositions
+from card_deck import CardDeck
 class TestInteractions(unittest.TestCase):
+
+    def test_question_loading(self):
+        print("Loading Card Deck")
+        cd = CardDeck("red")
 
     def test_game_position(self):
         print("test_game_position")
@@ -25,14 +29,14 @@ class TestInteractions(unittest.TestCase):
         test_card_deck = CardDeck()
         self.assertEqual(len(test_card_deck.cards), 25)
 
-    def test_player_movement(self):
-        print("test_player_movement")
-        # Create a player and mover, and move its mover 10 spaces
-        players = Players()
-        players.add_player("Test Player", "green", 10)
-        print("Player's mover should start at 10 and end at 20")
-        players.players[0].mover.move(10)
-        self.assertEqual(players.players[0].mover.current_position, 20)
+    #def test_player_movement(self):
+    #    print("test_player_movement")
+    #    # Create a player and mover, and move its mover 10 spaces
+    #    players = Players()
+    #    players.add_player("Test Player", "green", 10)
+    #    print("Player's mover should start at 10 and end at 20")
+    #    players.players[0].mover.move(10)
+    #    self.assertEqual(players.players[0].mover.current_position, 20)
 
     def test_game_board_interactions(self):
         print("test_game_board_interactions")

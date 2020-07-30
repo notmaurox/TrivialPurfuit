@@ -36,15 +36,14 @@ class CardDeck:
         path = r"../question_bank/"
         self.cards = []
         self.type = type
-        
-        for question in range(25):
-            self.cards.append(Card())
+        self.load_questions_from_file(path)
+
             
     def load_questions_from_file(self, path: str):
         LOG.info("Call to CardDeck.load_questions_from_file")
-        self.loader = QuestionLoader(path)
-        self.loader
-        pass
-        
+        self.cards = QuestionLoader(path).question_collection
+        print("Sample card question", self.cards[0].question)
+        print("Sample card answer", self.cards[0].answer)
+
     def deal_card():
         pass
