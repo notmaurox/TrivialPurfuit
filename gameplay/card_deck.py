@@ -29,9 +29,11 @@ class CardDecks:
             
 class CardDeck:
     
-    def __init__(self):
+    def __init__(self, type):
         LOG.info("Call to CardDeck.__init__")
         self.cards = []
+        self.type = type
+        
         for question in range(25):
             self.cards.append(Card())
             

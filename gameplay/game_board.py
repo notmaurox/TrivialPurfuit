@@ -15,6 +15,14 @@ class GameBoard:
     
     def __init__(self, num_players: int, player_names: List[str]):
         LOG.info("Call to GameBoard.__init__")
+        
+        self.red_deck = CardDeck()
+        self.white_deck = CardDeck()
+        self.blue_deck = CardDeck()
+        self.green_deck = CardDeck()
+        self.die = Die(num_sides=6)    
+        self.game_positions = GamePositions()
+                
         self.players = []
         
         for player_num in range(0, num_players):
@@ -26,10 +34,7 @@ class GameBoard:
                     start_pos_y=0
                 )
             )
-        
-        self.card_decks = CardDecks()
-        self.die = Die(num_sides=6)    
-        self.game_positions = GamePositions()
+
         
     def main_gameplay_loop(self):
         # while True
