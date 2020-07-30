@@ -11,6 +11,7 @@ LOG = logging.getLogger(__name__)
 LOG.setLevel(logging.INFO)
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
+
 class GameBoard:
     
     def __init__(self, num_players: int, player_names: List[str]):

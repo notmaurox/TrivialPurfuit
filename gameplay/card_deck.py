@@ -1,6 +1,8 @@
 from card import Card
 import logging
 import sys
+sys.path.append("../question_bank")
+from loader import QuestionLoader
 LOG = logging.getLogger(__name__)
 LOG.setLevel(logging.INFO)
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
@@ -31,6 +33,7 @@ class CardDeck:
     
     def __init__(self, type):
         LOG.info("Call to CardDeck.__init__")
+        path = r"../question_bank/"
         self.cards = []
         self.type = type
         
@@ -39,6 +42,8 @@ class CardDeck:
             
     def load_questions_from_file(self, path: str):
         LOG.info("Call to CardDeck.load_questions_from_file")
+        self.loader = QuestionLoader(path)
+        self.loader
         pass
         
     def deal_card():

@@ -6,8 +6,8 @@ logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
 class Card:
     
-    def __init__(self, type, qestion, answer):
+    def __init__(self, type, question, answer):
         LOG.info("Call to Card.__init__")
         self.type = "TYPE"
-        self.question = "QUESITON"
-        self.answer = "ANSWER"
+        self.question = question
+        self.answer = answer
