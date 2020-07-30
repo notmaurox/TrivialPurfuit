@@ -1,43 +1,61 @@
 import logging
 import sys
 
+from typing import List
+
 LOG = logging.getLogger(__name__)
 LOG.setLevel(logging.INFO)
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 LOG.info("Call to game_position")
 
-class GamePosition:
-    
-    def __init__(self, i, i_next_1, i_next_2=None):
-        LOG.info("Call to GamePosition.__init__")
-        #LOG.info('Created GamePosition with index {}'.format(i))
-        self.category = "CATEGORY_TYPE"
-        self.location_index = i
-        self.next_location_index = [i_next_1, i_next_2]
-        self.position_type = "OUTSIDE/SPOKE/CENTER"
-
 class GamePositions:
-    def __init__(self):
+    def __init__(self, side_length=11):
         LOG.info("Call to GamePosition.__init__")
-        self.perimeter_len = 30
-        self.internal_spoke_len = 10
-        self.game_positions = []
-        self.number_of_spokes = 4
+        self.side_length = side_length
+        self.center_index = int((side_length-1)/2)
+        self.total_perimeter = (side_length*4)-4
+        
+        matrix = [ [ "NONE" for i in range(side_length) ] for j in range(side_length) ] 
+        curr_pos = [0, 0]
+        # Initialize perimiter
+        for direction in [[1, 0], [0, 1], [-1, 0], [0, -1]]:
+            for edge_counter in range(self.side_length-1):
+                matrix[curr_pos[0]][curr_pos[1]] = "TYPE"
+                curr_pos[0] += direction[0]
+                curr_pos[1] += direction[1]
+        # Initialize center
+        matrix[self.center_index][self.center_index] = "CENT"
+        # Initizlize vertical spokes
+        vert_spoke = [1, self.center_index]
+        for spoke_counter in range(self.side_length-2):
+            if vert_spoke != [self.center_index, self.center_index]:
+                matrix[vert_spoke[0]][vert_spoke[1]] = "SPOK"
+            vert_spoke[0] += 1
+        # Initizlize horizonal spokes
+        horiz_spoke = [self.center_index, 1]
+        for spoke_counter in range(self.side_length-2):
+            if horiz_spoke != [self.center_index, self.center_index]:
+                matrix[horiz_spoke[0]][horiz_spoke[1]] = "SPOK"
+            horiz_spoke[1] += 1
+            
+        self.matrix = matrix
+        
+    def print(self):
+        for row in self.matrix:
+            print(row)
+            
+    def find_next_position(
+        self,
+        start_pos_x: int,
+        start_pos_y: int,
+        spaces_to_move: int,
+        direction: str,
+    ):
+        pass
+        
+    def get_position_type(self, pos_x: int, pos_y: int):
+        pass
 
-        # Initialize perimeter
-        LOG.info("Initializing perimeter game positions")
-        for pos in range(self.perimeter_len):
-            self.game_positions.append(GamePosition(pos+1, pos+2, None))  # avoiding zeroth index
-
-        # Intitialize internal spokes
-        LOG.info("Initializing internal spoke game positions")
-        for pos in range(
-            self.perimeter_len,
-            self.internal_spoke_len * self.number_of_spokes
-        ):  # start counting after the perimeter count
-            self.game_positions.append(GamePosition(pos, pos + 1, None))
-
-        # Initialize special cases
-        self.game_positions[self.perimeter_len].next_location_index = 1  # wrap perimeter around to start
-
+if __name__ == "__main__":
+    GamePositions().print()
 
