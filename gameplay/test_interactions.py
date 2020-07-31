@@ -1,12 +1,19 @@
 import unittest
 
-from game_board import GameBoard
 from dice import Die
 from mover import Mover
 from game_position import GamePositions
 from card_deck import CardDecks
+from game_board import GameBoard
 
 class TestInteractions(unittest.TestCase):
+    def test_game_board(self):
+        gameBoard = GameBoard(4, ["Mauro", "Derek", "Jeff", "Stefan"])
+        gameBoard.set_current_player(gameBoard.players[0])
+        gameBoard.present_die()
+        card = gameBoard.card_decks.get_green_card()
+        gameBoard.display_question(card)
+        gameBoard.display_answer(card)
 
     def test_question_loading(self):
         print("Loading Card Deck")

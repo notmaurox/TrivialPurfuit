@@ -26,7 +26,7 @@ class QuestionLoader:
             question_reader = csv.reader(file, delimiter='\t')
             for thisLine in question_reader:
                 if thisLine[0] == self.type:
-                    questions.append(Card(thisLine[0], thisLine[1], thisLine[2], thisLine[4]))
+                    questions.append(Card(thisLine[0], thisLine[1], thisLine[2], thisLine[5]))
                     print(thisLine)
         return questions
 

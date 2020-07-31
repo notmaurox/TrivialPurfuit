@@ -36,3 +36,8 @@ class Mover:
             LOG.info("Incorrect color type!")
         self.wedges.append(color)
 
+    def render(self):
+        # Tie into the gui here using the following inputs FOR TARGET INCREMENT
+        #self.curr_x_pos
+        #self.curr_y_pos
+        pass
