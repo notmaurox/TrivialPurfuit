@@ -1,16 +1,20 @@
 import unittest
 
-from card_deck import CardDeck
 from game_board import GameBoard
 from dice import Die
 from mover import Mover
 from game_position import GamePositions
-from card_deck import CardDeck
+from card_deck import CardDecks
+
 class TestInteractions(unittest.TestCase):
 
     def test_question_loading(self):
         print("Loading Card Deck")
-        cd = CardDeck("red")
+        card = CardDecks()
+        print("Getting white card")
+        thisCard = card.get_white_card()
+        thisCard.print()
+        self.assertEqual(thisCard.type, "Independence Day")
 
     def test_game_position(self):
         print("test_game_position")
@@ -26,7 +30,7 @@ class TestInteractions(unittest.TestCase):
         print("test_card_deck_to_card_interaction")
         # Create a single deck of cards of length 25
         print("Testing the card deck.")
-        test_card_deck = CardDeck()
+        test_card_deck = CardDeck("Places")
         self.assertEqual(len(test_card_deck.cards), 25)
 
     #def test_player_movement(self):

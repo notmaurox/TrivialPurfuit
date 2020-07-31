@@ -8,7 +8,13 @@ class Card:
     
     def __init__(self, type, question, answer, difficulty):
         LOG.info("Call to Card.__init__")
-        self.type = "TYPE"
+        self.type = type
         self.question = question
         self.answer = answer
         self.difficulty = difficulty
+
+    def print(self):
+        print("Type:", self.type)
+        print("Question:", self.question)
+        print("Answer:", self.answer)
+        print("Difficulty:", self.difficulty)
