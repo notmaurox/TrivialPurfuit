@@ -44,6 +44,15 @@ class GameBoard:
         #       if game over
         #          return
         pass
+   
+
+    def ask_user_direction(self, message):
+        userInput = 0
+        while userInput not in range(1,3):
+            userInput = int(input(message))
+        return userInput
+                  
+                        
         
     def present_die(self):
         input("Press Enter to roll the die.\n")  # This isn't working right, just have to look up the usage
@@ -55,6 +64,10 @@ class GameBoard:
         
     def display_question(self, card):
         print(card.question)
+        
+    def ask_user_answer(self):
+        input("Press Enter to see the answer.\n") 
+        
 
         
     def display_answer(self, card):

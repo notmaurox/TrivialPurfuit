@@ -11,8 +11,16 @@ class TestInteractions(unittest.TestCase):
         gameBoard = GameBoard(4, ["Mauro", "Derek", "Jeff", "Stefan"])
         gameBoard.set_current_player(gameBoard.players[0])
         gameBoard.present_die()
+        #We can use int direction later for the movement
+        direction = gameBoard.ask_user_direction("Enter 1 to move forward or 2 to move backwards.")
+        if direction == 1:
+            print("User will move forward.")
+        elif direction == 2:
+            print("User will move backward.")
+        
         card = gameBoard.card_decks.get_green_card()
         gameBoard.display_question(card)
+        gameBoard.ask_user_answer() #Added to prompt user before we show the answer
         gameBoard.display_answer(card)
 
     def test_question_loading(self):
@@ -37,7 +45,7 @@ class TestInteractions(unittest.TestCase):
         print("test_card_deck_to_card_interaction")
         # Create a single deck of cards of length 25
         print("Testing the card deck.")
-        test_card_deck = CardDeck("Places")
+        test_card_deck = CardDecks("Places")
         self.assertEqual(len(test_card_deck.cards), 25)
 
     #def test_player_movement(self):
