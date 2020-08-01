@@ -44,7 +44,7 @@ class GamePositions:
         for row in self.matrix:
             print(row)
             
-    def find_next_position(
+    def find_next_position(  # I think this needs to include (call to) ask_for_user_path()
         self,
         start_pos_x: int,
         start_pos_y: int,
@@ -52,8 +52,11 @@ class GamePositions:
         direction: str,
     ):
         pass
-        
+        return #return user's new position
+
+
     def get_position_type(self, pos_x: int, pos_y: int):
+        # return "red" "white" "blue" "green"
         pass
 
 if __name__ == "__main__":

@@ -25,7 +25,8 @@ class GameBoard:
                 
         self.players = []
         self.current_player = None # It might be useful to have this property to easily access the player whose turn it is
-        
+        self.direction = ""  # The direction the player has chosen to move (not yet sure what values this can take)
+
         for player_num in range(0, num_players):
             self.players.append(
                 Mover(
@@ -38,38 +39,56 @@ class GameBoard:
 
         
     def main_gameplay_loop(self):
-        # while True
-        #   for player in Players
-        #    take_turn(player)
-        #       if game over
-        #          return
-        pass
-   
+        while True:
+            for player in self.players:
+                self.take_turn(player)
+
 
     def ask_user_direction(self, message):
         userInput = 0
         while userInput not in range(1,3):
             userInput = int(input(message))
-        return userInput
-                  
-                        
+        self.direction = userInput
         
     def present_die(self):
         input("Press Enter to roll the die.\n")  # This isn't working right, just have to look up the usage
         value = self.die.roll()
         print("Die face value: ", value)
+        return value
 
     def take_turn(self, current_player: Mover):
         self.set_current_player(current_player)
-        
+        rolledNumber = self.present_die()
+        self.ask_user_direction()
+        newPosition = self.game_positions.find_next_position(
+                                                    current_player.get_pos(),
+                                                    rolledNumber,
+                                                    self.direction
+                                           )
+        current_player.update_pos(newPosition)
+        type = self.game_positions.get_position_type(current_player.get_pos())
+        card = self.card_decks.draw_card_by_type(type)
+        self.display_question(card)
+        self.display_answer(card)
+        self.current_player.add_wedge(type)  # logic either needs to sit here to only add a wedge if it is isn't already owned OR let the mover worry about that (latter seems better)
+        self.report_end_of_game()  # should be a conditional
+        self.report_end_of_turn()
+        return
+
     def display_question(self, card):
         print(card.question)
         
     def ask_user_answer(self):
-        input("Press Enter to see the answer.\n") 
-        
+        input("Press Enter to see the answer.\n")
 
-        
+
+    def report_end_of_turn(self):
+        input(self.current_player + ", your turn is now over.  Press Enter to finish.")
+
+    def report_end_of_game(self, winner):
+        input(winner + " has won the game!  Press Enter to finish.")
+        self.end_game()  # this call might better live outside of this method, like in the calling method (presumably the main gameplay loop)
+
     def display_answer(self, card):
         print(card.answer)
         val = input("Did " + self.current_player.name + " answer the question correctly? [y/n]\n")
@@ -79,7 +98,7 @@ class GameBoard:
             return 0
         else:
             print("Invalid input. Please enter y or n")
-            return self.display_answer()
+            return self.display_answer(card) # this is recursive.  consider changing
 
         
     def draw_board(self):  # for target increment
@@ -88,4 +107,6 @@ class GameBoard:
     def set_current_player(self, player):
         self.current_player = player
 
-        
+    def end_game(self): # kick off the sequence of ending the game (proclaim the winner, etc)
+        pass
+

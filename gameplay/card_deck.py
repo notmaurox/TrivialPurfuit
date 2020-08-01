@@ -26,8 +26,18 @@ class CardDecks:
     def get_blue_card(self):
         return self.blue_deck.deal_card()
         
-    def get_white_card(self):
-        return self.white_deck.deal_card()
+    def get_red_card(self):
+        return self.red_deck.deal_card()
+
+    def draw_card_by_type(self, type):  # Move this logic to take_turn() to
+        if type == "red":
+            return self.get_red_card()
+        if type == "white":
+            return self.get_white_card()
+        if type == "blue":
+            return self.get_blue_card()
+        if type == "green":
+            return self.get_green_card()
             
 class CardDeck:
     
