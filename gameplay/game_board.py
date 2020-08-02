@@ -1,8 +1,8 @@
 from dice import Die
 #from players import Players
-from card_deck import CardDecks
+#from card_deck import CardDecks
 from mover import Mover
-#from card_deck import CardDeck
+from card_deck import CardDeck
 import time
 from typing import List
 from game_position import GamePositions
@@ -18,7 +18,11 @@ class GameBoard:
     def __init__(self, num_players: int, player_names: List[str]):
         LOG.info("Call to GameBoard.__init__")
         
-        self.card_decks = CardDecks()
+        #self.card_decks = CardDecks()
+        self.red_deck = CardDeck("Events")              # Are these the right color to category mappings?  If we want to stick with colors, that's fine
+        self.white_deck = CardDeck("Independence Day")
+        self.blue_deck = CardDeck("People")
+        self.green_deck = CardDeck("Places")
 
         self.die = Die(num_sides=6)    
         self.game_positions = GamePositions()
@@ -67,7 +71,7 @@ class GameBoard:
                                            )
         current_player.update_pos(newPosition)
         type = self.game_positions.get_position_type(current_player.get_pos())
-        card = self.card_decks.draw_card_by_type(type)
+        card = self.draw_card_by_type(type)
         self.display_question(card)
         self.display_answer(card)
         self.current_player.add_wedge(type)  # logic either needs to sit here to only add a wedge if it is isn't already owned OR let the mover worry about that (latter seems better)
@@ -110,3 +114,12 @@ class GameBoard:
     def end_game(self): # kick off the sequence of ending the game (proclaim the winner, etc)
         pass
 
+    def draw_card_by_type(self, type):  # Move this logic to game board
+        if type == "red":
+            return self.get_red_card()
+        if type == "white":
+            return self.get_white_card()
+        if type == "blue":
+            return self.get_blue_card()
+        if type == "green":
+            return self.get_green_card()
