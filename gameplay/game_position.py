@@ -14,6 +14,7 @@ class GamePositions:
         self.side_length = side_length
         self.center_index = int((side_length-1)/2)
         self.total_perimeter = (side_length*4)-4
+        self.max_index = self.side_length-1
         
         # Due do the nature of this matrix, the coordinate system is accessed
         # by using self.matrix[y][x]
@@ -21,7 +22,7 @@ class GamePositions:
         curr_pos = [0, 0]
         # Initialize perimiter
         for direction in [[1, 0], [0, 1], [-1, 0], [0, -1]]:
-            for edge_counter in range(self.side_length-1):
+            for edge_counter in range(self.max_index):
                 matrix[curr_pos[0]][curr_pos[1]] = "TYPE"
                 curr_pos[0] += direction[0]
                 curr_pos[1] += direction[1]
@@ -47,10 +48,45 @@ class GamePositions:
         for i in range(1, len(self.matrix)+1):
             print(self.matrix[len(self.matrix)-i])
 
+    def _inverse_dir(self, dir):
+        if dir:
+            if dir == 'up':
+                return 'down'
+            if dir == 'down':
+                return 'up'
+            if dir == 'left':
+                return 'right'
+            if dir == 'right':
+                return 'left'
+        else:
+            return None
+
     def _determine_move_dir(self, pos_x: int, pos_y: int, direction: str,
             prev_dir=None
         ):
-        # If someone is on a 
+        # If someone is on a join position between perimiter and spoke...
+        if (
+            pos_x == self.center_index and (pos_y == 0 or pos_y == self.max_index)
+            or
+            pos_y == self.center_index and (pos_x == 0 or pos_x == self.max_index)
+        ):
+            allowed_dirs = ['up', 'down', 'left', 'right']
+            if self._inverse_dir(prev_dir) in allowed_dirs:
+                allowed_dirs.remove(self._inverse_dir(prev_dir))
+            if pos_x == 0:
+                allowed_dirs.remove('right')
+            if pos_y == 0:
+                allowed_dirs.remove('down')
+            if pos_x == self.max_index:
+                allowed_dirs.remove('right')
+            if pos_y == self.max_index:
+                allowed_dirs.remove('left')
+            dir_str = ",".join(allowed_dirs)
+            usr_msg = 'Pick direction to move from center ('+dir_str+') : '
+            dir = input(usr_msg) 
+            while dir not in allowed_dirs:
+                dir = input(usr_msg)
+            return dir
         # If someone is in the center, ask which direction to move in
         if pos_x == self.center_index and pos_y == self.center_index:
             usr_msg = "Pick direction to move from center (up, down, left, right) : "
@@ -77,15 +113,15 @@ class GamePositions:
             else:
                 usr_msg = "Pick direction to move along spoke (up, down) : "
                 dir = input(usr_msg) 
-                while dir not in ['left', 'right']:
+                while dir not in ['up', 'down']:
                     dir = input(usr_msg)
                 return dir
         if direction == 'fwd':
-            if pos_x == 0 and pos_y != (self.side_length-1):
+            if pos_x == 0 and pos_y != (self.max_index):
                 move_dir = 'up'
-            elif pos_x == (self.side_length-1) and pos_y != 0:
+            elif pos_x == (self.max_index) and pos_y != 0:
                 move_dir = 'down'
-            elif pos_y == (self.side_length-1):
+            elif pos_y == (self.max_index):
                 move_dir = 'right'
             elif pos_y == 0:
                 move_dir = 'left'
@@ -93,15 +129,14 @@ class GamePositions:
         if direction == 'rev':
             if pos_x == 0 and pos_y != 0:
                 move_dir = 'down'
-            elif pos_x == (self.side_length-1) and pos_y != (self.side_length-1):
+            elif pos_x == (self.max_index) and pos_y != (self.max_index):
                 move_dir = 'up'
-            elif pos_y == (self.side_length-1):
+            elif pos_y == (self.max_index):
                 move_dir = 'left'
             elif pos_y == 0:
                 move_dir = 'right'
             return move_dir
         
-
     def find_next_position(  # I think this needs to include (call to) ask_for_user_path()
         self,
         start_pos_x: int,
@@ -117,11 +152,9 @@ class GamePositions:
         delta = 1
         move_dir = None
         while spaces_moved != spaces_to_move:
-            print(end_pos_x, end_pos_y)
             move_dir = self._determine_move_dir(
                 end_pos_x, end_pos_y, direction, move_dir
             )
-            print(move_dir)
             if move_dir == 'up':
                 end_pos_y += 1
             if move_dir == 'down':
@@ -131,12 +164,6 @@ class GamePositions:
             if move_dir == 'right':
                 end_pos_x += 1
             spaces_moved += 1
-            
-        print('started')
-        print(start_pos_x, start_pos_y)
-        print('ended')
-        print(end_pos_x, end_pos_y)
-        
         return end_pos_x, end_pos_y
 
 
