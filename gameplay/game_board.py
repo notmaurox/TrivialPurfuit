@@ -64,13 +64,14 @@ class GameBoard:
         self.set_current_player(current_player)
         rolledNumber = self.present_die()
         self.ask_user_direction()
-        newPosition = self.game_positions.find_next_position(
-                                                    current_player.get_pos(),
-                                                    rolledNumber,
-                                                    self.direction
-                                           )
-        current_player.update_pos(newPosition)
-        type = self.game_positions.get_position_type(current_player.get_pos())
+        new_x_pos, new_y_pos = self.game_positions.find_next_position(
+            current_player.get_pos()[0],
+            current_player.get_pos()[1],
+            rolledNumber,
+            self.direction
+        )
+        current_player.update_pos(new_x_pos, new_y_pos)
+        type = self.game_positions.get_position_type(new_x_pos, new_y_pos)
         card = self.draw_card_by_type(type)
         self.display_question(card)
         self.display_answer(card)

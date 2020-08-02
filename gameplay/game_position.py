@@ -18,30 +18,68 @@ class GamePositions:
         
         # Due do the nature of this matrix, the coordinate system is accessed
         # by using self.matrix[y][x]
-        matrix = [ [ "NONE" for i in range(side_length) ] for j in range(side_length) ] 
+        self.matrix = [ [ "    " for i in range(side_length) ] for j in range(side_length) ] 
+        self._initialize_default_board()
+    
+    def _initialize_default_board(self):
+        red_pos = [
+            (0,5), (0,10), (8,10), (10,6), (10, 4), (8, 0), #outer positions
+            (4,5), (9,5), (5,3), (5,8) #inner positions
+        ]
+        blue_pos = [
+            (5,0), (0,8), (6,10), (4,10), (10,8), (0,0), #outer positions
+            (2,5), (7,5), (5,9), (5,4) #inner positions
+        ]
+        white_pos = [
+            (10,5), (2,0), (0,4), (0,6), (2,10), (10,0), #outer positions
+            (1,5), (6,5), (5,7), (5,2) #inner positions
+        ]
+        green_pos = [
+            (5, 10), (10,10), (10,2), (6,0), (4,0), (0,2), #outer positions
+            (3,5), (8,5), (5,1), (5,6) #inner positions
+        ]
+        colored_positions = [
+            (red_pos, "REDD"),
+            (blue_pos, "BLUE"),
+            (white_pos, "WHTE"),
+            (green_pos, "GREN")
+        ]
+        for color_pos, color in colored_positions:
+            for pos in color_pos:
+                self.matrix[pos[1]][pos[0]] = color
+        # add roll again spaces
+        curr_pos = [0, 0]
+        for direction in [[1, 0], [0, 1], [-1, 0], [0, -1]]:
+            for edge_counter in range(self.max_index):
+                if self.matrix[curr_pos[0]][curr_pos[1]] == "    ":
+                    self.matrix[curr_pos[0]][curr_pos[1]] = "R//A"
+                curr_pos[0] += direction[0]
+                curr_pos[1] += direction[1]
+        # add center
+        self.matrix[self.center_index][self.center_index] = "CENT"
+    
+    def _intitialize_dummy_matrix(self):
         curr_pos = [0, 0]
         # Initialize perimiter
         for direction in [[1, 0], [0, 1], [-1, 0], [0, -1]]:
             for edge_counter in range(self.max_index):
-                matrix[curr_pos[0]][curr_pos[1]] = "TYPE"
+                self.matrix[curr_pos[0]][curr_pos[1]] = "TYPE"
                 curr_pos[0] += direction[0]
                 curr_pos[1] += direction[1]
         # Initialize center
-        matrix[self.center_index][self.center_index] = "CENT"
+        self.matrix[self.center_index][self.center_index] = "CENT"
         # Initizlize vertical spokes
         vert_spoke = [1, self.center_index]
         for spoke_counter in range(self.side_length-2):
             if vert_spoke != [self.center_index, self.center_index]:
-                matrix[vert_spoke[0]][vert_spoke[1]] = "SPOK"
+                self.matrix[vert_spoke[0]][vert_spoke[1]] = "TYPE"
             vert_spoke[0] += 1
         # Initizlize horizonal spokes
         horiz_spoke = [self.center_index, 1]
         for spoke_counter in range(self.side_length-2):
             if horiz_spoke != [self.center_index, self.center_index]:
-                matrix[horiz_spoke[0]][horiz_spoke[1]] = "SPOK"
+                self.matrix[horiz_spoke[0]][horiz_spoke[1]] = "TYPE"
             horiz_spoke[1] += 1
-            
-        self.matrix = matrix
         
     def print(self):
         # Print matrix in reverse order so bottom left cell is (0,0)
@@ -172,14 +210,9 @@ class GamePositions:
 
     def get_position_type(self, pos_x: int, pos_y: int):
         # return "red" "white" "blue" "green"
-        pass
+        return self.matrix[pos_y][pos_x]
 
 if __name__ == "__main__":
     gp = GamePositions()
-    x, y = 0, 6
-    gp.matrix[y][x] = 'STRT'
-    gp.print()
-    newx, newy = gp.find_next_position(x, y, 6, 'fwd')
-    gp.matrix[newy][newx] = 'ENDD'
     gp.print()
 
