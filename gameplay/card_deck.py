@@ -7,31 +7,6 @@ LOG = logging.getLogger(__name__)
 LOG.setLevel(logging.INFO)
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 import random
-
-## This should be adapted to remove CardDecks and instead have all categories in CardDeck.  Instantiation will change a little bit
-
-
-#################   REMOVE   #################
-class CardDecks:
-    
-    def __init__(self):
-        LOG.info("Call to CardDecks.__init__")
-
-        
-    def get_green_card(self):
-        return self.green_deck.deal_card()
-        
-    def get_white_card(self):
-        return self.white_deck.deal_card()
-        
-    def get_blue_card(self):
-        return self.blue_deck.deal_card()
-        
-    def get_red_card(self):
-        return self.red_deck.deal_card()
-
-#################   REMOVE   #################
-
             
 class CardDeck:
     

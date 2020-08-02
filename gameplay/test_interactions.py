@@ -3,10 +3,14 @@ import unittest
 from dice import Die
 from mover import Mover
 from game_position import GamePositions
-from card_deck import CardDecks
+from card_deck import CardDeck
 from game_board import GameBoard
 
 class TestInteractions(unittest.TestCase):
+    def test_main_gameplay_loop(self):
+        GameBoard(4, ["Mauro", "Derek", "Jeff", "Stefan"])
+
+
     def test_game_board(self):
         gameBoard = GameBoard(4, ["Mauro", "Derek", "Jeff", "Stefan"])
         gameBoard.set_current_player(gameBoard.players[0])
@@ -18,7 +22,7 @@ class TestInteractions(unittest.TestCase):
         elif direction == 2:
             print("User will move backward.")
         
-        card = gameBoard.card_decks.get_green_card()
+        card = gameBoard.get_green_card()
         gameBoard.display_question(card)
         gameBoard.ask_user_answer() #Added to prompt user before we show the answer
         gameBoard.display_answer(card)
