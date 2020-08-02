@@ -51,8 +51,33 @@ class GamePositions:
         spaces_to_move: int,
         direction: str,
     ):
-        pass
-        return #return user's new position
+        # Direction can take form fwd or rev where by default the game GameBoard
+        # runs clockwise.
+        end_pos_x = start_pos_x
+        end_pos_y = start_pos_y
+        spaces_moved = 0
+        if direction == 'fwd':
+            delta = 1
+        elif direction == 'rev':
+            delta = -1
+        while spaces_moved != spaces_to_move:
+            #bottom of board
+            if end_pos_y == 0:
+                end_pos_x += delta
+            elif end_pos_y == (self.side_length-1):
+                end_pos_x -= delta
+            elif end_pos_x == 0:
+                end_pos_y += detla
+            elif end_pos_x == (self.side_length-1):
+                end_pos_y -= delta
+            spaces_moved += 1
+            
+        print('started')
+        print(start_pos_x, start_pos_y)
+        print('ended')
+        print(end_pos_x, end_pos_y)
+        
+        return end_pos_x, end_pos_y
 
 
     def get_position_type(self, pos_x: int, pos_y: int):
@@ -60,5 +85,11 @@ class GamePositions:
         pass
 
 if __name__ == "__main__":
-    GamePositions().print()
+    gp = GamePositions()
+    x, y = 0, 0
+    gp.matrix[x][y] = 'STRT'
+    gp.print()
+    newx, newy = gp.find_next_position(x,y,5,'fwd')
+    gp.matrix[newx][newy] = 'ENDD'
+    gp.print()
 
