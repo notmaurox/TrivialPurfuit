@@ -50,11 +50,36 @@ class GamePositions:
     def _determine_move_dir(self, pos_x: int, pos_y: int, direction: str,
             prev_dir=None
         ):
+        # If someone is on a 
+        # If someone is in the center, ask which direction to move in
         if pos_x == self.center_index and pos_y == self.center_index:
-            dir = input("Pick direction to move from center (up, down, left, right) : ") 
+            usr_msg = "Pick direction to move from center (up, down, left, right) : "
+            dir = input(usr_msg) 
             while dir not in ['up', 'down', 'left', 'right']:
-                dir = input("Pick direction to move from center (up, down, left, right) : ")
+                dir = input(usr_msg)
             return dir
+        # If someone is on a horizonal spoke, move them along spoke in same dir
+        if pos_x == self.center_index and (pos_y > 0 and pos_y < self.center_index):
+            # if this is their first move, ask dir
+            if prev_dir:
+                return prev_dir
+            else:
+                usr_msg = "Pick direction to move along spoke (left, right) : "
+                dir = input(usr_msg) 
+                while dir not in ['left', 'right']:
+                    dir = input(usr_msg)
+                return dir
+        # If someone is on a vertical spoke, move them along spoke in same dir
+        if pos_y == self.center_index and (pos_x > 0 and pos_x < self.center_index):
+            # if this is their first move, ask dir
+            if prev_dir:
+                return prev_dir
+            else:
+                usr_msg = "Pick direction to move along spoke (up, down) : "
+                dir = input(usr_msg) 
+                while dir not in ['left', 'right']:
+                    dir = input(usr_msg)
+                return dir
         if direction == 'fwd':
             if pos_x == 0 and pos_y != (self.side_length-1):
                 move_dir = 'up'
@@ -90,9 +115,12 @@ class GamePositions:
         end_pos_y = start_pos_y
         spaces_moved = 0
         delta = 1
+        move_dir = None
         while spaces_moved != spaces_to_move:
             print(end_pos_x, end_pos_y)
-            move_dir = self._determine_move_dir(end_pos_x, end_pos_y, direction)
+            move_dir = self._determine_move_dir(
+                end_pos_x, end_pos_y, direction, move_dir
+            )
             print(move_dir)
             if move_dir == 'up':
                 end_pos_y += 1
