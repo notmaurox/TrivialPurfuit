@@ -46,7 +46,37 @@ class GamePositions:
         # Print matrix in reverse order so bottom left cell is (0,0)
         for i in range(1, len(self.matrix)+1):
             print(self.matrix[len(self.matrix)-i])
-            
+
+    def _determine_move_dir(self, pos_x: int, pos_y: int, direction: str,
+            prev_dir=None
+        ):
+        if pos_x == self.center_index and pos_y == self.center_index:
+            dir = input("Pick direction to move from center (up, down, left, right) : ") 
+            while dir not in ['up', 'down', 'left', 'right']:
+                dir = input("Pick direction to move from center (up, down, left, right) : ")
+            return dir
+        if direction == 'fwd':
+            if pos_x == 0 and pos_y != (self.side_length-1):
+                move_dir = 'up'
+            elif pos_x == (self.side_length-1) and pos_y != 0:
+                move_dir = 'down'
+            elif pos_y == (self.side_length-1):
+                move_dir = 'right'
+            elif pos_y == 0:
+                move_dir = 'left'
+            return move_dir
+        if direction == 'rev':
+            if pos_x == 0 and pos_y != 0:
+                move_dir = 'down'
+            elif pos_x == (self.side_length-1) and pos_y != (self.side_length-1):
+                move_dir = 'up'
+            elif pos_y == (self.side_length-1):
+                move_dir = 'left'
+            elif pos_y == 0:
+                move_dir = 'right'
+            return move_dir
+        
+
     def find_next_position(  # I think this needs to include (call to) ask_for_user_path()
         self,
         start_pos_x: int,
@@ -61,34 +91,18 @@ class GamePositions:
         spaces_moved = 0
         delta = 1
         while spaces_moved != spaces_to_move:
-            # ask user for direction...
-            if end_pos_x == self.center_index and end_pos_y == self.center_index:
-                dir = input("Pick direction to move from center (up, down, left, right) : ") 
-                while dir not in ['up', 'down', 'left', 'right']:
-                    dir = input("Pick direction to move from center (up, down, left, right) : ")
-                if dir == 'up':
-                    end_pos_y += 1
-                elif dir == 'down':
-                    end_pos_y -= 1
-                elif dir == 'left':
-                    end_pos_x -= 1
-                elif dir =='right':
-                    end_pos_x += 1
-                spaces_moved += 1
-            # user at join position between perimiter and spoke
-            elif end_pos_x == self.center_index or end_pos_y == self.center_index:
-                pass 
-            # traverse board perimiter
-            elif direction == 'fwd':
-                if end_pos_x == 0 and end_pos_y != (self.side_length-1):
-                    end_pos_y += delta
-                elif end_pos_x == (self.side_length-1) and end_pos_y != 0:
-                    end_pos_y -= delta
-                elif end_pos_y == (self.side_length-1):
-                    end_pos_x += delta
-                elif end_pos_y == 0:
-                    end_pos_x -= delta
-                spaces_moved += 1
+            print(end_pos_x, end_pos_y)
+            move_dir = self._determine_move_dir(end_pos_x, end_pos_y, direction)
+            print(move_dir)
+            if move_dir == 'up':
+                end_pos_y += 1
+            if move_dir == 'down':
+                end_pos_y -= 1
+            if move_dir == 'left':
+                end_pos_x -= 1
+            if move_dir == 'right':
+                end_pos_x += 1
+            spaces_moved += 1
             
         print('started')
         print(start_pos_x, start_pos_y)
