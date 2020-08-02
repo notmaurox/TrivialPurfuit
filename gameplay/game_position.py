@@ -15,6 +15,8 @@ class GamePositions:
         self.center_index = int((side_length-1)/2)
         self.total_perimeter = (side_length*4)-4
         
+        # Due do the nature of this matrix, the coordinate system is accessed
+        # by using self.matrix[y][x]
         matrix = [ [ "NONE" for i in range(side_length) ] for j in range(side_length) ] 
         curr_pos = [0, 0]
         # Initialize perimiter
@@ -41,8 +43,9 @@ class GamePositions:
         self.matrix = matrix
         
     def print(self):
-        for row in self.matrix:
-            print(row)
+        # Print matrix in reverse order so bottom left cell is (0,0)
+        for i in range(1, len(self.matrix)+1):
+            print(self.matrix[len(self.matrix)-i])
             
     def find_next_position(  # I think this needs to include (call to) ask_for_user_path()
         self,
@@ -56,21 +59,36 @@ class GamePositions:
         end_pos_x = start_pos_x
         end_pos_y = start_pos_y
         spaces_moved = 0
-        if direction == 'fwd':
-            delta = 1
-        elif direction == 'rev':
-            delta = -1
+        delta = 1
         while spaces_moved != spaces_to_move:
-            #bottom of board
-            if end_pos_y == 0:
-                end_pos_x += delta
-            elif end_pos_y == (self.side_length-1):
-                end_pos_x -= delta
-            elif end_pos_x == 0:
-                end_pos_y += detla
-            elif end_pos_x == (self.side_length-1):
-                end_pos_y -= delta
-            spaces_moved += 1
+            # ask user for direction...
+            if end_pos_x == self.center_index and end_pos_y == self.center_index:
+                dir = input("Pick direction to move from center (up, down, left, right) : ") 
+                while dir not in ['up', 'down', 'left', 'right']:
+                    dir = input("Pick direction to move from center (up, down, left, right) : ")
+                if dir == 'up':
+                    end_pos_y += 1
+                elif dir == 'down':
+                    end_pos_y -= 1
+                elif dir == 'left':
+                    end_pos_x -= 1
+                elif dir =='right':
+                    end_pos_x += 1
+                spaces_moved += 1
+            # user at join position between perimiter and spoke
+            elif end_pos_x == self.center_index or end_pos_y == self.center_index:
+                pass 
+            # traverse board perimiter
+            elif direction == 'fwd':
+                if end_pos_x == 0 and end_pos_y != (self.side_length-1):
+                    end_pos_y += delta
+                elif end_pos_x == (self.side_length-1) and end_pos_y != 0:
+                    end_pos_y -= delta
+                elif end_pos_y == (self.side_length-1):
+                    end_pos_x += delta
+                elif end_pos_y == 0:
+                    end_pos_x -= delta
+                spaces_moved += 1
             
         print('started')
         print(start_pos_x, start_pos_y)
@@ -86,10 +104,10 @@ class GamePositions:
 
 if __name__ == "__main__":
     gp = GamePositions()
-    x, y = 0, 0
-    gp.matrix[x][y] = 'STRT'
+    x, y = 0, 6
+    gp.matrix[y][x] = 'STRT'
     gp.print()
-    newx, newy = gp.find_next_position(x,y,5,'fwd')
-    gp.matrix[newx][newy] = 'ENDD'
+    newx, newy = gp.find_next_position(x, y, 6, 'fwd')
+    gp.matrix[newy][newx] = 'ENDD'
     gp.print()
 
