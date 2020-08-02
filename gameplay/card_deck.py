@@ -11,14 +11,12 @@ import random
 ## This should be adapted to remove CardDecks and instead have all categories in CardDeck.  Instantiation will change a little bit
 
 
+#################   REMOVE   #################
 class CardDecks:
     
     def __init__(self):
         LOG.info("Call to CardDecks.__init__")
-        self.red_deck = CardDeck("Events")              # Are these the right color to category mappings?  If we want to stick with colors, that's fine
-        self.white_deck = CardDeck("Independence Day")
-        self.blue_deck = CardDeck("People")
-        self.green_deck = CardDeck("Places")
+
         
     def get_green_card(self):
         return self.green_deck.deal_card()
@@ -32,15 +30,8 @@ class CardDecks:
     def get_red_card(self):
         return self.red_deck.deal_card()
 
-    def draw_card_by_type(self, type):  # Move this logic to game board
-        if type == "red":
-            return self.get_red_card()
-        if type == "white":
-            return self.get_white_card()
-        if type == "blue":
-            return self.get_blue_card()
-        if type == "green":
-            return self.get_green_card()
+#################   REMOVE   #################
+
             
 class CardDeck:
     

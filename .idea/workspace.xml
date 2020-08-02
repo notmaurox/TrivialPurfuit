@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ec97b675-890c-470f-807c-95cea7637068" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gameplay/card_deck.py" beforeDir="false" afterPath="$PROJECT_DIR$/gameplay/card_deck.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gameplay/game_board.py" beforeDir="false" afterPath="$PROJECT_DIR$/gameplay/game_board.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
