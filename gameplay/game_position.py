@@ -73,15 +73,15 @@ class GamePositions:
             allowed_dirs = ['up', 'down', 'left', 'right']
             if self._inverse_dir(prev_dir) in allowed_dirs:
                 allowed_dirs.remove(self._inverse_dir(prev_dir))
-            if pos_x == 0:
-                allowed_dirs.remove('right')
-            if pos_y == 0:
-                allowed_dirs.remove('down')
-            if pos_x == self.max_index:
-                allowed_dirs.remove('right')
-            if pos_y == self.max_index:
+            if pos_x == 0 and 'left' in allowed_dirs:
                 allowed_dirs.remove('left')
-            dir_str = ",".join(allowed_dirs)
+            if pos_y == 0 and 'down' in allowed_dirs:
+                allowed_dirs.remove('down')
+            if pos_x == self.max_index and 'right' in allowed_dirs:
+                allowed_dirs.remove('right')
+            if pos_y == self.max_index and 'up' in allowed_dirs:
+                allowed_dirs.remove('up')
+            dir_str = ", ".join(allowed_dirs)
             usr_msg = 'Pick direction to move from center ('+dir_str+') : '
             dir = input(usr_msg) 
             while dir not in allowed_dirs:
@@ -94,26 +94,28 @@ class GamePositions:
             while dir not in ['up', 'down', 'left', 'right']:
                 dir = input(usr_msg)
             return dir
-        # If someone is on a horizonal spoke, move them along spoke in same dir
-        if pos_x == self.center_index and (pos_y > 0 and pos_y < self.center_index):
-            # if this is their first move, ask dir
-            if prev_dir:
-                return prev_dir
-            else:
-                usr_msg = "Pick direction to move along spoke (left, right) : "
-                dir = input(usr_msg) 
-                while dir not in ['left', 'right']:
-                    dir = input(usr_msg)
-                return dir
         # If someone is on a vertical spoke, move them along spoke in same dir
-        if pos_y == self.center_index and (pos_x > 0 and pos_x < self.center_index):
+        if pos_x == self.center_index and (pos_y > 0 and pos_y < self.max_index):
+            print('on vertical')
             # if this is their first move, ask dir
-            if prev_dir:
+            if prev_dir != None:
                 return prev_dir
             else:
                 usr_msg = "Pick direction to move along spoke (up, down) : "
                 dir = input(usr_msg) 
                 while dir not in ['up', 'down']:
+                    dir = input(usr_msg)
+                return dir
+        # If someone is on a horizonal spoke, move them along spoke in same dir
+        if pos_y == self.center_index and (pos_x > 0 and pos_x < self.max_index):
+            print('on horizonal')
+            # if this is their first move, ask dir
+            if prev_dir != None:
+                return prev_dir
+            else:
+                usr_msg = "Pick direction to move along spoke (left, right) : "
+                dir = input(usr_msg) 
+                while dir not in ['left', 'right']:
                     dir = input(usr_msg)
                 return dir
         if direction == 'fwd':
@@ -155,6 +157,7 @@ class GamePositions:
             move_dir = self._determine_move_dir(
                 end_pos_x, end_pos_y, direction, move_dir
             )
+            print(move_dir)
             if move_dir == 'up':
                 end_pos_y += 1
             if move_dir == 'down':
