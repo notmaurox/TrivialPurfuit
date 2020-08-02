@@ -8,6 +8,9 @@ LOG.setLevel(logging.INFO)
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 import random
 
+## This should be adapted to remove CardDecks and instead have all categories in CardDeck.  Instantiation will change a little bit
+
+
 class CardDecks:
     
     def __init__(self):
@@ -29,7 +32,7 @@ class CardDecks:
     def get_red_card(self):
         return self.red_deck.deal_card()
 
-    def draw_card_by_type(self, type):  # Move this logic to take_turn() to
+    def draw_card_by_type(self, type):  # Move this logic to game board
         if type == "red":
             return self.get_red_card()
         if type == "white":
