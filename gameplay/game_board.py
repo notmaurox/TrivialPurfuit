@@ -46,12 +46,15 @@ class GameBoard:
         while True:
             for player in self.players:
                 self.take_turn(player)
+                self.game_positions.render(self.players)
+                
 
 
-    def ask_user_direction(self, message):
+    def ask_user_direction(self):
         userInput = 0
-        while userInput not in range(1,3):
-            userInput = int(input(message))
+        message = "pick direction to move across board (fwd/rev)"
+        while userInput not in ['fwd', 'rev']]:
+            userInput = input(message)
         self.direction = userInput
         
     def present_die(self):

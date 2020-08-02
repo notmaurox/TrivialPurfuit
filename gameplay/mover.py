@@ -18,7 +18,7 @@ class Mover:
         self.curr_y_pos = start_pos_y
         self.wedges = []  # list of wedge colors that the player has obtained
         self.on_spokes = False
-        self.mover_color = ""
+        self.mover_color = mover_color
 
     def update_pos(self, new_x: int, new_y: int):
         LOG.info("Call to mover.move")

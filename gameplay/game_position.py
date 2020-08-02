@@ -1,7 +1,9 @@
 import logging
 import sys
+import copy
 
 from typing import List
+from mover import Mover
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel(logging.INFO)
@@ -207,12 +209,36 @@ class GamePositions:
             spaces_moved += 1
         return end_pos_x, end_pos_y
 
-
     def get_position_type(self, pos_x: int, pos_y: int):
         # return "red" "white" "blue" "green"
         return self.matrix[pos_y][pos_x]
+        
+    def render(self, players : List[Mover]):
+        to_print = [copy.deepcopy(row) for row in self.matrix]
+        for i in range(len(players)):
+            player = players[i]
+            print(player.mover_color)
+            player_icon = player.mover_color[0].lower()
+            pos_label = to_print[player.curr_y_pos][player.curr_x_pos]
+            new_label = pos_label[:i] + player_icon + pos_label[i + 1:]
+            to_print[player.curr_y_pos][player.curr_x_pos] = new_label
+        # Print matrix in reverse order so bottom left cell is (0,0)
+        for i in range(1, len(self.matrix)+1):
+            print(to_print[len(self.matrix)-i])
 
 if __name__ == "__main__":
     gp = GamePositions()
-    gp.print()
+    p1 = Mover(
+        name="player",
+        mover_color="BLUE",
+        start_pos_x=0,
+        start_pos_y=0
+    )
+    p2 = Mover(
+        name="player",
+        mover_color="GREEN",
+        start_pos_x=0,
+        start_pos_y=0
+    )
+    gp.render([p1,p2])
 
