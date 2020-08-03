@@ -66,12 +66,16 @@ class GameBoard:
         while userInput not in ['fwd', 'rev']:
             userInput = input(message)
         return userInput
-        
+    
+    # This isn't working right, just have to look up the usage
     def present_die(self):
-        input("Press Enter to roll the die.\n")  # This isn't working right, just have to look up the usage
-        value = self.die.roll()
-        print("Die face value: ", value)
-        return value
+        roll_amount = input("Press Enter to roll the die. Enter quit to quit game. \n")
+        if roll_amount == 'quit':
+            exit()
+        else:
+            value = self.die.roll()
+            print("Die face value: ", value)
+            return value
 
     def take_turn(self, current_player: Mover):
         self.set_current_player(current_player)
