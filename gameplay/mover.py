@@ -32,9 +32,15 @@ class Mover:
     def add_wedge(self, color):
         LOG.info("Call to mover.add_wedge")
         LOG.info("Adding wedge")
-        if color not in ["red", "blue", "white", "green"]:
+        expected_wedges = ["red", "blue", "white", "green"]
+        if color not in expected_wedges:
             LOG.info("Incorrect color type!")
-        self.wedges.append(color)
+        if color not in self.wedges:
+            self.wedges.append(color)
+        for wedge in expected_wedges:
+            if wedge not in self.wedges:
+                return False
+        return True
 
     def render(self):
         # Tie into the gui here using the following inputs FOR TARGET INCREMENT

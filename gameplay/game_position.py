@@ -136,7 +136,6 @@ class GamePositions:
             return dir
         # If someone is on a vertical spoke, move them along spoke in same dir
         if pos_x == self.center_index and (pos_y > 0 and pos_y < self.max_index):
-            print('on vertical')
             # if this is their first move, ask dir
             if prev_dir != None:
                 return prev_dir
@@ -148,7 +147,6 @@ class GamePositions:
                 return dir
         # If someone is on a horizonal spoke, move them along spoke in same dir
         if pos_y == self.center_index and (pos_x > 0 and pos_x < self.max_index):
-            print('on horizonal')
             # if this is their first move, ask dir
             if prev_dir != None:
                 return prev_dir
@@ -197,7 +195,6 @@ class GamePositions:
             move_dir = self._determine_move_dir(
                 end_pos_x, end_pos_y, direction, move_dir
             )
-            print(move_dir)
             if move_dir == 'up':
                 end_pos_y += 1
             if move_dir == 'down':
@@ -217,7 +214,6 @@ class GamePositions:
         to_print = [copy.deepcopy(row) for row in self.matrix]
         for i in range(len(players)):
             player = players[i]
-            print(player.mover_color)
             player_icon = player.mover_color[0].lower()
             pos_label = to_print[player.curr_y_pos][player.curr_x_pos]
             new_label = pos_label[:i] + player_icon + pos_label[i + 1:]
@@ -225,6 +221,14 @@ class GamePositions:
         # Print matrix in reverse order so bottom left cell is (0,0)
         for i in range(1, len(self.matrix)+1):
             print(to_print[len(self.matrix)-i])
+            
+    def get_headquarter_positions(self):
+        return [
+            (0, self.center_index),
+            (self.center_index, 0),
+            (self.max_index, self.center_index),
+            (self.center_index, self.max_index)
+        ]
 
 if __name__ == "__main__":
     gp = GamePositions()
