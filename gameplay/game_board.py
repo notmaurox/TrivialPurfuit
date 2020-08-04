@@ -29,10 +29,10 @@ class GameBoard:
         LOG.info("Call to GameBoard.__init__")
         
         #self.card_decks = CardDecks()
-        self.red_deck = CardDeck("Events")              # Are these the right color to category mappings?  If we want to stick with colors, that's fine
-        self.white_deck = CardDeck("Independence Day")
-        self.blue_deck = CardDeck("People")
-        self.green_deck = CardDeck("Places")
+        self.red_deck = CardDeck("People")              # Are these the right color to category mappings?  If we want to stick with colors, that's fine
+        self.white_deck = CardDeck("Events")
+        self.blue_deck = CardDeck("Places")
+        self.green_deck = CardDeck("Independence Day")
 
         self.die = Die(num_sides=6)    
         self.game_positions = GamePositions()
@@ -60,8 +60,9 @@ class GameBoard:
 
 
 
-    def ask_user_direction(self):
+    def ask_user_direction(self):  ####################################
         userInput = 0
+        ## Check if on spoke, if so skip this
         message = "pick direction to move across board (fwd/rev)"
         while userInput not in ['fwd', 'rev']:
             userInput = input(message)
@@ -80,12 +81,11 @@ class GameBoard:
         while type == 'roll_again' or answered_correct:
             self.game_positions.render(self.players)
             rolledNumber = self.present_die()
-            direction = self.ask_user_direction()
+            #direction = self.ask_user_direction()
             new_x_pos, new_y_pos = self.game_positions.find_next_position(
                 current_player.get_pos()[0],
                 current_player.get_pos()[1],
-                rolledNumber,
-                direction
+                rolledNumber
             )
             current_player.update_pos(new_x_pos, new_y_pos)
             # Currently game_positions stores types of positions as 4 character stings

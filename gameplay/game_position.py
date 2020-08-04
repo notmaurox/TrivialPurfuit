@@ -101,9 +101,9 @@ class GamePositions:
         else:
             return None
 
-    def _determine_move_dir(self, pos_x: int, pos_y: int, direction: str,
-            prev_dir=None
+    def _determine_move_dir(self, pos_x: int, pos_y: int, prev_dir=None,
         ):
+
         # If someone is on a join position between perimiter and spoke...
         if (
             pos_x == self.center_index and (pos_y == 0 or pos_y == self.max_index)
@@ -156,7 +156,14 @@ class GamePositions:
                 while dir not in ['left', 'right']:
                     dir = input(usr_msg)
                 return dir
-        if direction == 'fwd':
+
+        if self.start_of_turn:
+            self.start_direction = 0
+            message = "pick direction to move across board (fwd/rev)"
+            while self.start_direction not in ['fwd', 'rev']:
+                self.start_direction = input(message)
+
+        if self.start_direction == 'fwd':
             if pos_x == 0 and pos_y != (self.max_index):
                 move_dir = 'up'
             elif pos_x == (self.max_index) and pos_y != 0:
@@ -165,8 +172,9 @@ class GamePositions:
                 move_dir = 'right'
             elif pos_y == 0:
                 move_dir = 'left'
+            self.start_of_turn = 0
             return move_dir
-        if direction == 'rev':
+        if self.start_direction == 'rev':
             if pos_x == 0 and pos_y != 0:
                 move_dir = 'down'
             elif pos_x == (self.max_index) and pos_y != (self.max_index):
@@ -175,18 +183,18 @@ class GamePositions:
                 move_dir = 'left'
             elif pos_y == 0:
                 move_dir = 'right'
+            self.start_of_turn = 0
             return move_dir
         
     def find_next_position(  # I think this needs to include (call to) ask_for_user_path()
         self,
         start_pos_x: int,
         start_pos_y: int,
-        spaces_to_move: int,
-        direction: str,
+        spaces_to_move: int
     ):
         # Direction can take form fwd or rev where by default the game GameBoard
         # runs clockwise.
-        direction = 'fwd'  #   TEMP, REMOVE
+        self.start_of_turn = 1
         end_pos_x = start_pos_x
         end_pos_y = start_pos_y
         spaces_moved = 0
@@ -194,7 +202,7 @@ class GamePositions:
         move_dir = None
         while spaces_moved != spaces_to_move:
             move_dir = self._determine_move_dir(
-                end_pos_x, end_pos_y, direction, move_dir
+                end_pos_x, end_pos_y, move_dir,
             )
             if move_dir == 'up':
                 end_pos_y += 1
