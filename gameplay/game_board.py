@@ -9,10 +9,11 @@ from typing import List
 from game_position import GamePositions
 import logging
 import sys
+import random
 
 LOG = logging.getLogger(__name__)
-LOG.setLevel(logging.INFO)
-logging.basicConfig(stream=sys.stdout, level=logging.INFO)
+LOG.setLevel(logging.CRITICAL)
+logging.basicConfig(stream=sys.stdout, level=logging.CRITICAL)
 
 GAME_POSITION_TYPE_MAP = {
     "REDD": "red",
@@ -28,11 +29,10 @@ class GameBoard:
     def __init__(self, num_players: int, player_names: List[str]):
         LOG.info("Call to GameBoard.__init__")
         
-        #self.card_decks = CardDecks()
-        self.red_deck = CardDeck("Events")              # Are these the right color to category mappings?  If we want to stick with colors, that's fine
-        self.white_deck = CardDeck("Independence Day")
-        self.blue_deck = CardDeck("People")
-        self.green_deck = CardDeck("Places")
+        self.red_deck = CardDeck("People")              # Are these the right color to category mappings?  If we want to stick with colors, that's fine
+        self.white_deck = CardDeck("Events")
+        self.blue_deck = CardDeck("Places")
+        self.green_deck = CardDeck("Independence Day")
 
         self.die = Die(num_sides=6)    
         self.game_positions = GamePositions()
@@ -51,24 +51,16 @@ class GameBoard:
                 )
             )
 
-        
+
     def main_gameplay_loop(self):
         while True:
             for player in self.players:
                 self.take_turn(player)
                 self.game_positions.render(self.players)
-                
 
-
-    def ask_user_direction(self):
-        userInput = 0
-        message = "pick direction to move across board (fwd/rev)"
-        while userInput not in ['fwd', 'rev']:
-            userInput = input(message)
-        return userInput
         
     def present_die(self):
-        input("Press Enter to roll the die.\n")  # This isn't working right, just have to look up the usage
+        input("Press Enter to roll the die.")  # This isn't working right, just have to look up the usage
         value = self.die.roll()
         print("Die face value: ", value)
         return value
@@ -80,20 +72,27 @@ class GameBoard:
         while type == 'roll_again' or answered_correct:
             self.game_positions.render(self.players)
             rolledNumber = self.present_die()
-            direction = self.ask_user_direction()
             new_x_pos, new_y_pos = self.game_positions.find_next_position(
                 current_player.get_pos()[0],
                 current_player.get_pos()[1],
                 rolledNumber,
-                direction
+                self.players
             )
             current_player.update_pos(new_x_pos, new_y_pos)
             # Currently game_positions stores types of positions as 4 character stings
             gp_type = self.game_positions.get_position_type(new_x_pos, new_y_pos)
             # Mapp 4 character game_positions to game_board position type
             type = GAME_POSITION_TYPE_MAP[gp_type]
+            if type == 'center':
+                colors = ['red', 'white', 'blue', 'green']
+                n = len(colors) - 1
+                i = random.randint(0, n)
+                type = colors[i]
+
             if type != 'roll_again':
-                card = self.MINIMAL_INCREMENT_draw_card_by_type(type)
+                card = self.draw_card_by_type(type)
+                #card = self.MINIMAL_INCREMENT_draw_card_by_type(type)
+                self.game_positions.render(self.players)
                 self.display_question(card)
                 self.ask_user_answer()
                 answered_correct = self.display_answer(card)
@@ -102,14 +101,15 @@ class GameBoard:
                     is_full = self.current_player.add_wedge(type)
                     if is_full:
                         self.report_end_of_game()  # should be a conditional
+
         self.report_end_of_turn()
         return
 
     def display_question(self, card):
-        print(card.question)
+        print(card.type, "question:", card.question)
         
     def ask_user_answer(self):
-        input("Press Enter to see the answer.\n")
+        input("Press Enter to see the answer.")
 
     def report_end_of_turn(self):
         input(self.current_player.name + ", your turn is now over.  Press Enter to finish.")
@@ -119,7 +119,7 @@ class GameBoard:
         self.end_game()  # this call might better live outside of this method, like in the calling method (presumably the main gameplay loop)
 
     def display_answer(self, card):
-        print(card.answer)
+        print("Answer:", card.answer)
         val = input("Did " + self.current_player.name + " answer the question correctly? [y/n]\n")
         while val not in ['y', 'n']:
             val = input("Did " + self.current_player.name + " answer the question correctly? [y/n]\n")
@@ -156,7 +156,7 @@ class GameBoard:
             return self.blue_deck.deal_card()
         if type == "green":
             return self.green_deck.deal_card()
-            
+
 if __name__ == "__main__":
     gb = GameBoard(4, ['r', 'w', 'g', 'b'])
     gb.main_gameplay_loop()

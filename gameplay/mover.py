@@ -4,8 +4,8 @@ import sys
 #from game_position import GamePosition
 
 LOG = logging.getLogger(__name__)
-LOG.setLevel(logging.INFO)
-logging.basicConfig(stream=sys.stdout, level=logging.INFO)
+LOG.setLevel(logging.CRITICAL)
+logging.basicConfig(stream=sys.stdout, level=logging.CRITICAL)
 
 class Mover:
     def __init__(
@@ -35,8 +35,10 @@ class Mover:
         expected_wedges = ["red", "blue", "white", "green"]
         if color not in expected_wedges:
             LOG.info("Incorrect color type!")
+            quit()
         if color not in self.wedges:
             self.wedges.append(color)
+            print("Player earned a", color, "wedge!")
         for wedge in expected_wedges:
             if wedge not in self.wedges:
                 return False
