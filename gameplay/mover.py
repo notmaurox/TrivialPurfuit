@@ -4,8 +4,8 @@ import sys
 #from game_position import GamePosition
 
 LOG = logging.getLogger(__name__)
-LOG.setLevel(logging.INFO)
-logging.basicConfig(stream=sys.stdout, level=logging.INFO)
+LOG.setLevel(logging.CRITICAL)
+logging.basicConfig(stream=sys.stdout, level=logging.CRITICAL)
 
 class Mover:
     def __init__(

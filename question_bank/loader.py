@@ -5,8 +5,8 @@ import csv
 from card import Card
 sys.path.append(r"../gameplay")
 LOG = logging.getLogger(__name__)
-LOG.setLevel(logging.INFO)
-logging.basicConfig(stream=sys.stdout, level=logging.INFO)
+LOG.setLevel(logging.CRITICAL)
+logging.basicConfig(stream=sys.stdout, level=logging.CRITICAL)
 
 class QuestionLoader:
     
@@ -27,6 +27,6 @@ class QuestionLoader:
             for thisLine in question_reader:
                 if thisLine[0] == self.type:
                     questions.append(Card(thisLine[0], thisLine[1], thisLine[2], thisLine[5]))
-                    print(thisLine)
+                    #print(thisLine)
         return questions
 

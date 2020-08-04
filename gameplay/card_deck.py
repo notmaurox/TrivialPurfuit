@@ -4,8 +4,8 @@ import sys
 sys.path.append("../question_bank")
 from loader import QuestionLoader
 LOG = logging.getLogger(__name__)
-LOG.setLevel(logging.INFO)
-logging.basicConfig(stream=sys.stdout, level=logging.INFO)
+LOG.setLevel(logging.CRITICAL)
+logging.basicConfig(stream=sys.stdout, level=logging.CRITICAL)
 import random
             
 class CardDeck:
@@ -20,8 +20,8 @@ class CardDeck:
     def load_questions_from_file(self, path: str, type):
         LOG.info("Call to CardDeck.load_questions_from_file")
         self.cards = QuestionLoader(path, type).question_collection
-        print("Sample card question", self.cards[0].question)
-        print("Sample card answer", self.cards[0].answer)
+        #print("Sample card question", self.cards[0].question)
+        #print("Sample card answer", self.cards[0].answer)
 
     def deal_card(self):
         n = len(self.cards)-1

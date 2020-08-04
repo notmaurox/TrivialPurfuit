@@ -6,8 +6,8 @@ from typing import List
 from mover import Mover
 
 LOG = logging.getLogger(__name__)
-LOG.setLevel(logging.INFO)
-logging.basicConfig(stream=sys.stdout, level=logging.INFO)
+LOG.setLevel(logging.NOTSET)
+logging.basicConfig(stream=sys.stdout, level=logging.NOTSET)
 LOG.info("Call to game_position")
 
 class GamePositions:
@@ -186,6 +186,7 @@ class GamePositions:
     ):
         # Direction can take form fwd or rev where by default the game GameBoard
         # runs clockwise.
+        direction = 'fwd'  #   TEMP, REMOVE
         end_pos_x = start_pos_x
         end_pos_y = start_pos_y
         spaces_moved = 0

@@ -11,8 +11,8 @@ import logging
 import sys
 
 LOG = logging.getLogger(__name__)
-LOG.setLevel(logging.INFO)
-logging.basicConfig(stream=sys.stdout, level=logging.INFO)
+LOG.setLevel(logging.CRITICAL)
+logging.basicConfig(stream=sys.stdout, level=logging.CRITICAL)
 
 GAME_POSITION_TYPE_MAP = {
     "REDD": "red",
@@ -51,13 +51,13 @@ class GameBoard:
                 )
             )
 
-        
+
     def main_gameplay_loop(self):
         while True:
             for player in self.players:
                 self.take_turn(player)
                 self.game_positions.render(self.players)
-                
+
 
 
     def ask_user_direction(self):
@@ -156,7 +156,7 @@ class GameBoard:
             return self.blue_deck.deal_card()
         if type == "green":
             return self.green_deck.deal_card()
-            
+
 if __name__ == "__main__":
     gb = GameBoard(4, ['r', 'w', 'g', 'b'])
     gb.main_gameplay_loop()

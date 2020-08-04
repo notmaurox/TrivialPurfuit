@@ -9,7 +9,7 @@ from game_board import GameBoard
 class TestInteractions(unittest.TestCase):
     def test_main_gameplay_loop(self):
         GameBoard(4, ["Mauro", "Derek", "Jeff", "Stefan"])
-
+        quit()
 
     def test_game_board(self):
         gameBoard = GameBoard(4, ["Mauro", "Derek", "Jeff", "Stefan"])
@@ -27,13 +27,13 @@ class TestInteractions(unittest.TestCase):
         gameBoard.ask_user_answer() #Added to prompt user before we show the answer
         gameBoard.display_answer(card)
 
-    def test_question_loading(self):
-        print("Loading Card Deck")
-        card = CardDecks()
-        print("Getting white card")
-        thisCard = card.get_white_card()
-        thisCard.print()
-        self.assertEqual(thisCard.type, "Independence Day")
+    #def test_question_loading(self):
+    #    print("Loading Card Deck")
+    #    card = CardDecks()
+    #    print("Getting white card")
+    #    thisCard = card.get_white_card()
+    #    thisCard.print()
+    #    self.assertEqual(thisCard.type, "Independence Day")
 
     def test_game_position(self):
         print("test_game_position")
