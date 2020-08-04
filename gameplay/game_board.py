@@ -29,10 +29,10 @@ class GameBoard:
         LOG.info("Call to GameBoard.__init__")
         
         #self.card_decks = CardDecks()
-        self.red_deck = CardDeck("People")              #Jeff: fixed color mappings Aug 3
-        self.white_deck = CardDeck("Events")
-        self.blue_deck = CardDeck("Places")
-        self.green_deck = CardDeck("Independence Day")
+        self.red_deck = CardDeck("Events")              # Are these the right color to category mappings?  If we want to stick with colors, that's fine
+        self.white_deck = CardDeck("Independence Day")
+        self.blue_deck = CardDeck("People")
+        self.green_deck = CardDeck("Places")
 
         self.die = Die(num_sides=6)    
         self.game_positions = GamePositions()
@@ -83,7 +83,6 @@ class GameBoard:
         answered_correct = False
         while type == 'roll_again' or answered_correct:
             self.game_positions.render(self.players)
-            print('\n User shall roll again. \n')
             rolledNumber = self.present_die()
             direction = self.ask_user_direction()
             new_x_pos, new_y_pos = self.game_positions.find_next_position(
