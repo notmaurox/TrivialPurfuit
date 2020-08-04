@@ -101,7 +101,7 @@ class GamePositions:
         else:
             return None
 
-    def _determine_move_dir(self, pos_x: int, pos_y: int, prev_dir=None,
+    def _determine_move_dir(self, pos_x: int, pos_y: int, players, prev_dir=None,
         ):
 
         # If someone is on a join position between perimiter and spoke...
@@ -123,6 +123,7 @@ class GamePositions:
                 allowed_dirs.remove('up')
             dir_str = ", ".join(allowed_dirs)
             usr_msg = 'Pick direction to move from center ('+dir_str+') : '
+            #self.render(players)
             dir = input(usr_msg) 
             while dir not in allowed_dirs:
                 dir = input(usr_msg)
@@ -130,7 +131,8 @@ class GamePositions:
         # If someone is in the center, ask which direction to move in
         if pos_x == self.center_index and pos_y == self.center_index:
             usr_msg = "Pick direction to move from center (up, down, left, right) : "
-            dir = input(usr_msg) 
+            #self.render(players)
+            dir = input(usr_msg)
             while dir not in ['up', 'down', 'left', 'right']:
                 dir = input(usr_msg)
             return dir
@@ -141,7 +143,8 @@ class GamePositions:
                 return prev_dir
             else:
                 usr_msg = "Pick direction to move along spoke (up, down) : "
-                dir = input(usr_msg) 
+                #self.render(players)
+                dir = input(usr_msg)
                 while dir not in ['up', 'down']:
                     dir = input(usr_msg)
                 return dir
@@ -152,7 +155,8 @@ class GamePositions:
                 return prev_dir
             else:
                 usr_msg = "Pick direction to move along spoke (left, right) : "
-                dir = input(usr_msg) 
+                #self.render(players)
+                dir = input(usr_msg)
                 while dir not in ['left', 'right']:
                     dir = input(usr_msg)
                 return dir
@@ -160,6 +164,7 @@ class GamePositions:
         if self.start_of_turn:
             self.start_direction = 0
             message = "pick direction to move across board (fwd/rev)"
+            #self.render(players)
             while self.start_direction not in ['fwd', 'rev']:
                 self.start_direction = input(message)
 
@@ -190,7 +195,8 @@ class GamePositions:
         self,
         start_pos_x: int,
         start_pos_y: int,
-        spaces_to_move: int
+        spaces_to_move: int,
+        players
     ):
         # Direction can take form fwd or rev where by default the game GameBoard
         # runs clockwise.
@@ -202,7 +208,7 @@ class GamePositions:
         move_dir = None
         while spaces_moved != spaces_to_move:
             move_dir = self._determine_move_dir(
-                end_pos_x, end_pos_y, move_dir,
+                end_pos_x, end_pos_y, players, move_dir,
             )
             if move_dir == 'up':
                 end_pos_y += 1

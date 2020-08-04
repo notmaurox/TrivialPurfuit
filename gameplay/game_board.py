@@ -9,6 +9,7 @@ from typing import List
 from game_position import GamePositions
 import logging
 import sys
+import random
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel(logging.CRITICAL)
@@ -59,7 +60,7 @@ class GameBoard:
 
         
     def present_die(self):
-        input("Press Enter to roll the die.\n")  # This isn't working right, just have to look up the usage
+        input("Press Enter to roll the die.")  # This isn't working right, just have to look up the usage
         value = self.die.roll()
         print("Die face value: ", value)
         return value
@@ -74,16 +75,24 @@ class GameBoard:
             new_x_pos, new_y_pos = self.game_positions.find_next_position(
                 current_player.get_pos()[0],
                 current_player.get_pos()[1],
-                rolledNumber
+                rolledNumber,
+                self.players
             )
             current_player.update_pos(new_x_pos, new_y_pos)
             # Currently game_positions stores types of positions as 4 character stings
             gp_type = self.game_positions.get_position_type(new_x_pos, new_y_pos)
             # Mapp 4 character game_positions to game_board position type
             type = GAME_POSITION_TYPE_MAP[gp_type]
+            if type == 'center':
+                colors = ['red', 'white', 'blue', 'green']
+                n = len(colors) - 1
+                i = random.randint(0, n)
+                type = colors[i]
+
             if type != 'roll_again':
                 card = self.draw_card_by_type(type)
                 #card = self.MINIMAL_INCREMENT_draw_card_by_type(type)
+                self.game_positions.render(self.players)
                 self.display_question(card)
                 self.ask_user_answer()
                 answered_correct = self.display_answer(card)
@@ -92,6 +101,7 @@ class GameBoard:
                     is_full = self.current_player.add_wedge(type)
                     if is_full:
                         self.report_end_of_game()  # should be a conditional
+
         self.report_end_of_turn()
         return
 
