@@ -28,7 +28,6 @@ class GameBoard:
     def __init__(self, num_players: int, player_names: List[str]):
         LOG.info("Call to GameBoard.__init__")
         
-        #self.card_decks = CardDecks()
         self.red_deck = CardDeck("People")              # Are these the right color to category mappings?  If we want to stick with colors, that's fine
         self.white_deck = CardDeck("Events")
         self.blue_deck = CardDeck("Places")
@@ -58,15 +57,6 @@ class GameBoard:
                 self.take_turn(player)
                 self.game_positions.render(self.players)
 
-
-
-    def ask_user_direction(self):  ####################################
-        userInput = 0
-        ## Check if on spoke, if so skip this
-        message = "pick direction to move across board (fwd/rev)"
-        while userInput not in ['fwd', 'rev']:
-            userInput = input(message)
-        return userInput
         
     def present_die(self):
         input("Press Enter to roll the die.\n")  # This isn't working right, just have to look up the usage
@@ -81,7 +71,6 @@ class GameBoard:
         while type == 'roll_again' or answered_correct:
             self.game_positions.render(self.players)
             rolledNumber = self.present_die()
-            #direction = self.ask_user_direction()
             new_x_pos, new_y_pos = self.game_positions.find_next_position(
                 current_player.get_pos()[0],
                 current_player.get_pos()[1],
@@ -93,7 +82,8 @@ class GameBoard:
             # Mapp 4 character game_positions to game_board position type
             type = GAME_POSITION_TYPE_MAP[gp_type]
             if type != 'roll_again':
-                card = self.MINIMAL_INCREMENT_draw_card_by_type(type)
+                card = self.draw_card_by_type(type)
+                #card = self.MINIMAL_INCREMENT_draw_card_by_type(type)
                 self.display_question(card)
                 self.ask_user_answer()
                 answered_correct = self.display_answer(card)
@@ -106,10 +96,10 @@ class GameBoard:
         return
 
     def display_question(self, card):
-        print(card.question)
+        print(card.type, "question:", card.question)
         
     def ask_user_answer(self):
-        input("Press Enter to see the answer.\n")
+        input("Press Enter to see the answer.")
 
     def report_end_of_turn(self):
         input(self.current_player.name + ", your turn is now over.  Press Enter to finish.")
@@ -119,7 +109,7 @@ class GameBoard:
         self.end_game()  # this call might better live outside of this method, like in the calling method (presumably the main gameplay loop)
 
     def display_answer(self, card):
-        print(card.answer)
+        print("Answer:", card.answer)
         val = input("Did " + self.current_player.name + " answer the question correctly? [y/n]\n")
         while val not in ['y', 'n']:
             val = input("Did " + self.current_player.name + " answer the question correctly? [y/n]\n")
