@@ -60,10 +60,13 @@ class GameBoard:
 
         
     def present_die(self):
-        input("Press Enter to roll the die.")  # This isn't working right, just have to look up the usage
-        value = self.die.roll()
-        print("Die face value: ", value)
-        return value
+        roll_amount = input("Press Enter to roll the die. Type quit to exit game.")
+        if roll_amount == 'quit':
+            exit()
+        else:
+            value = self.die.roll()
+            print("Die face value: ", value)
+            return value
 
     def take_turn(self, current_player: Mover):
         self.set_current_player(current_player)
