@@ -1,11 +1,11 @@
 import logging
 import sys
 
-from game_position import GamePosition
+#from game_position import GamePosition
 
 LOG = logging.getLogger(__name__)
-LOG.setLevel(logging.INFO)
-logging.basicConfig(stream=sys.stdout, level=logging.INFO)
+LOG.setLevel(logging.CRITICAL)
+logging.basicConfig(stream=sys.stdout, level=logging.CRITICAL)
 
 class Mover:
     def __init__(
@@ -18,6 +18,7 @@ class Mover:
         self.curr_y_pos = start_pos_y
         self.wedges = []  # list of wedge colors that the player has obtained
         self.on_spokes = False
+        self.mover_color = mover_color
 
     def update_pos(self, new_x: int, new_y: int):
         LOG.info("Call to mover.move")
@@ -31,7 +32,21 @@ class Mover:
     def add_wedge(self, color):
         LOG.info("Call to mover.add_wedge")
         LOG.info("Adding wedge")
-        if color not in ["red", "blue", "white", "green"]:
+        expected_wedges = ["red", "blue", "white", "green"]
+        if color not in expected_wedges:
             LOG.info("Incorrect color type!")
-        self.wedges.append(color)
+            quit()
+        if color not in self.wedges:
+            self.wedges.append(color)
+            print("Player earned a", color, "wedge!")
+        for wedge in expected_wedges:
+            if wedge not in self.wedges:
+                return False
+        return True
+
+    def render(self):
+        # Tie into the gui here using the following inputs FOR TARGET INCREMENT
+        #self.curr_x_pos
+        #self.curr_y_pos
+        pass
 

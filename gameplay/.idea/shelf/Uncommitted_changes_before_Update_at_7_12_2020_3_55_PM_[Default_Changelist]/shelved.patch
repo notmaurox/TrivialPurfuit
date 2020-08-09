@@ -1,0 +1,107 @@
+Index: game_position.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- game_position.py	(revision 5d91214ac317121d5cfee7468963d067c0a96c51)
++++ game_position.py	(date 1594590763540)
+@@ -1,0 +1,34 @@
++import logging
++import sys
++
++from typing import List
++from card import Card
++
++LOG = logging.getLogger(__name__)
++LOG.setLevel(logging.INFO)
++logging.basicConfig(stream=sys.stdout, level=logging.INFO)
++
++class GamePosition:
++    
++    def __init__(self, i, i_next_1, i_next_2=None):
++        LOG.info('Created GamePosition with index {}'.format(i))
++        self.category = "CATEGORY_TYPE"
++        self.location_index = i
++        self.next_location_index = [i_next_1, i_next_2]
++        self.position_type = "OUTSIDE/SPOKE/CENTER"
++
++class GamePositions:
++    
++    def __init__(self):
++        self.perimeter_len = 50
++        self.game_positions = []
++        # Inititalize perimeter
++        LOG.info("Initialized perimeter positions")
++        for pos in range(self.perimeter_len):
++            self.game_positions.append(GamePosition(pos, pos+1, None))
++            
++        # Intitialize internal spokes
++        self._initialize_interinal_positions(self.game_positions)
++        
++    def _initialize_interinal_positions(self, game_positions: List[GamePosition]):
++        LOG.info("Initialized internal positions")
+Index: game_board.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from dice import Die\r\nfrom players import Player\r\nfrom card_deck import CardDeck\r\nfrom typing import List\r\n\r\nclass GameBoard:\r\n    \r\n    def __init__(self, num_players: int, player_names: List[str]):\r\n        self.players = []\r\n        self.card_deck = CardDeck()\r\n        self.die = Die(num_sides=6)\r\n        \r\n        for player_num in range(0, num_players):\r\n            self.players.append(Player(name=player_names[player_num]))\r\n            \r\n        
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- game_board.py	(revision 5d91214ac317121d5cfee7468963d067c0a96c51)
++++ game_board.py	(date 1594590818900)
+@@ -1,16 +1,19 @@
+ from dice import Die
+-from players import Player
+-from card_deck import CardDeck
++from player import Player
++from card_deck import CardDecks
+ from typing import List
++from game_position import GamePositions
+ 
+ class GameBoard:
+     
+     def __init__(self, num_players: int, player_names: List[str]):
+         self.players = []
+-        self.card_deck = CardDeck()
++        self.card_decks = CardDecks()
+         self.die = Die(num_sides=6)
+         
+         for player_num in range(0, num_players):
+             self.players.append(Player(name=player_names[player_num]))
+             
++        self.game_positions = GamePositions()
++            
+         
+\ No newline at end of file
+Index: card_deck.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from card import Card\r\n\r\nclass CardDeck:\r\n    \r\n    def __init__(self):\r\n        self.cards = []\r\n        for question in range(1):\r\n            self.cards.append(Card())
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- card_deck.py	(revision 5d91214ac317121d5cfee7468963d067c0a96c51)
++++ card_deck.py	(date 1594590763539)
+@@ -1,8 +1,19 @@
+ from card import Card
+ 
++class CardDecks:
++    
++    def __init__(self):
++        self.red_deck = CardDeck()
++        self.white_deck = CardDeck()
++        self.blue_deck = CardDeck()
++        self.green_deck = CardDeck()
++            
+ class CardDeck:
+     
+     def __init__(self):
+         self.cards = []
+         for question in range(1):
+-            self.cards.append(Card())
+\ No newline at end of file
++            self.cards.append(Card())
++            
++    def load_questions_from_file(self, path: str):
++        pass
+\ No newline at end of file

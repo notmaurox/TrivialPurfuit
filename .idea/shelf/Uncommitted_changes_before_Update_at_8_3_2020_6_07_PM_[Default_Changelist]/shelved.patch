@@ -1,0 +1,288 @@
+Index: gameplay/game_position.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import logging\r\nimport sys\r\n\r\nfrom typing import List\r\n\r\nLOG = logging.getLogger(__name__)\r\nLOG.setLevel(logging.INFO)\r\nlogging.basicConfig(stream=sys.stdout, level=logging.INFO)\r\nLOG.info(\"Call to game_position\")\r\n\r\nclass GamePositions:\r\n    def __init__(self, side_length=11):\r\n        LOG.info(\"Call to GamePosition.__init__\")\r\n        self.side_length = side_length\r\n        self.center_index = int((side_length-1)/2)\r\n        self.total_perimeter = (side_length*4)-4\r\n        \r\n        # Due do the nature of this matrix, the coordinate system is accessed\r\n        # by using self.matrix[y][x]\r\n        matrix = [ [ \"NONE\" for i in range(side_length) ] for j in range(side_length) ] \r\n        curr_pos = [0, 0]\r\n        # Initialize perimiter\r\n        for direction in [[1, 0], [0, 1], [-1, 0], [0, -1]]:\r\n            for edge_counter in range(self.side_length-1):\r\n                matrix[curr_pos[0]][curr_pos[1]] = \"TYPE\"\r\n                curr_pos[0] += direction[0]\r\n                curr_pos[1] += direction[1]\r\n        # Initialize center\r\n        matrix[self.center_index][self.center_index] = \"CENT\"\r\n        # Initizlize vertical spokes\r\n        vert_spoke = [1, self.center_index]\r\n        for spoke_counter in range(self.side_length-2):\r\n            if vert_spoke != [self.center_index, self.center_index]:\r\n                matrix[vert_spoke[0]][vert_spoke[1]] = \"SPOK\"\r\n            vert_spoke[0] += 1\r\n        # Initizlize horizonal spokes\r\n        horiz_spoke = [self.center_index, 1]\r\n        for spoke_counter in range(self.side_length-2):\r\n            if horiz_spoke != [self.center_index, self.center_index]:\r\n                matrix[horiz_spoke[0]][horiz_spoke[1]] = \"SPOK\"\r\n            horiz_spoke[1] += 1\r\n            \r\n        self.matrix = matrix\r\n        \r\n    def print(self):\r\n        # Print matrix in reverse order so bottom left cell is (0,0)\r\n        for i in range(1, len(self.matrix)+1):\r\n            print(self.matrix[len(self.matrix)-i])\r\n            \r\n    def find_next_position(\r\n        self,\r\n        start_pos_x: int,\r\n        start_pos_y: int,\r\n        spaces_to_move: int,\r\n    ):\r\n        # Direction can take form fwd or rev where by default the game GameBoard\r\n        # runs clockwise.\r\n        end_pos_x = start_pos_x\r\n        end_pos_y = start_pos_y\r\n        spaces_moved = 0\r\n        delta = 1\r\n        while spaces_moved != spaces_to_move:\r\n            # ask user for direction...\r\n            if end_pos_x == self.center_index and end_pos_y == self.center_index:\r\n                dir = input(\"Pick direction to move from center (up, down, left, right) : \") \r\n                while dir not in ['up', 'down', 'left', 'right']:\r\n                    dir = input(\"Pick direction to move from center (up, down, left, right) : \")\r\n                if dir == 'up':\r\n                    end_pos_y += 1\r\n                elif dir == 'down':\r\n                    end_pos_y -= 1\r\n                elif dir == 'left':\r\n                    end_pos_x -= 1\r\n                elif dir =='right':\r\n                    end_pos_x += 1\r\n                spaces_moved += 1\r\n            # user at join position between perimiter and spoke\r\n            elif end_pos_x == self.center_index or end_pos_y == self.center_index:\r\n                pass \r\n            # traverse board perimiter\r\n            elif direction == 'fwd':\r\n                if end_pos_x == 0 and end_pos_y != (self.side_length-1):\r\n                    end_pos_y += delta\r\n                elif end_pos_x == (self.side_length-1) and end_pos_y != 0:\r\n                    end_pos_y -= delta\r\n                elif end_pos_y == (self.side_length-1):\r\n                    end_pos_x += delta\r\n                elif end_pos_y == 0:\r\n                    end_pos_x -= delta\r\n                spaces_moved += 1\r\n            \r\n        print('started')\r\n        print(start_pos_x, start_pos_y)\r\n        print('ended')\r\n        print(end_pos_x, end_pos_y)\r\n        \r\n        return end_pos_x, end_pos_y\r\n\r\n    def ask_user_direction(self, message):  # Thought: This could be renamed to \"ask_user_initial_direction\" because there is a similar functionality in game_position for path determination\r\n        # CHECK IF MOVER IS ON SPOKE... IF NOT, AS FOR CLOCKWISE AND COUNTER-CLOCKWISE, IF SO ASK FOR UP/DOWN, LEFT RIGHT (DEPENDING ON WHAT IS APPROPRIATE)\r\n        userInput = 0\r\n        while userInput not in range(1,3):\r\n            userInput = int(input(message))\r\n        self.direction = userInput\r\n\r\n    def get_position_type(self, pos_x: int, pos_y: int):\r\n        # return \"red\" \"white\" \"blue\" \"green\"\r\n        pass\r\n\r\nif __name__ == \"__main__\":\r\n    gp = GamePositions()\r\n    x, y = 0, 6\r\n    gp.matrix[y][x] = 'STRT'\r\n    gp.print()\r\n    newx, newy = gp.find_next_position(x, y, 6, 'fwd')\r\n    gp.matrix[newy][newx] = 'ENDD'\r\n    gp.print()\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- gameplay/game_position.py	(revision 54729d49c837c2c0c1f91ce63703991eea845dcf)
++++ gameplay/game_position.py	(date 1596399197551)
+@@ -4,8 +4,8 @@
+ from typing import List
+ 
+ LOG = logging.getLogger(__name__)
+-LOG.setLevel(logging.INFO)
+-logging.basicConfig(stream=sys.stdout, level=logging.INFO)
++LOG.setLevel(logging.NOTSET)
++logging.basicConfig(stream=sys.stdout, level=logging.NOTSET)
+ LOG.info("Call to game_position")
+ 
+ class GamePositions:
+@@ -55,6 +55,7 @@
+     ):
+         # Direction can take form fwd or rev where by default the game GameBoard
+         # runs clockwise.
++        direction = 'fwd'  #   TEMP, REMOVE
+         end_pos_x = start_pos_x
+         end_pos_y = start_pos_y
+         spaces_moved = 0
+Index: gameplay/game_board.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from dice import Die\r\n#from players import Players\r\n#from card_deck import CardDecks\r\nfrom mover import Mover\r\nfrom card_deck import CardDeck\r\nimport time\r\nfrom typing import List\r\nfrom game_position import GamePositions\r\nimport logging\r\nimport sys\r\n\r\nLOG = logging.getLogger(__name__)\r\nLOG.setLevel(logging.INFO)\r\nlogging.basicConfig(stream=sys.stdout, level=logging.INFO)\r\n\r\n\r\nclass GameBoard:\r\n    def __init__(self, num_players: int, player_names: List[str]):\r\n        LOG.info(\"Call to GameBoard.__init__\")\r\n        \r\n        self.red_deck = CardDeck(\"Events\")              # Are these the right color to category mappings?\r\n        self.white_deck = CardDeck(\"Independence Day\")\r\n        self.blue_deck = CardDeck(\"People\")\r\n        self.green_deck = CardDeck(\"Places\")\r\n\r\n        self.die = Die(num_sides=6)    \r\n        self.game_positions = GamePositions()\r\n                \r\n        self.players = []\r\n        self.current_player = None # It might be useful to have this property to easily access the player whose turn it is\r\n\r\n        for player_num in range(0, num_players):\r\n            self.players.append(\r\n                Mover(\r\n                    name=player_names[player_num],\r\n                    mover_color=\"COLOR\",\r\n                    start_pos_x=0,\r\n                    start_pos_y=0\r\n                )\r\n            )\r\n\r\n        self.main_gameplay_loop()  # should this be done by calling object?  Not seeing this in SRS\r\n\r\n    def main_gameplay_loop(self):\r\n        while True:\r\n            for player in self.players:\r\n                while self.take_turn(player):\r\n                    pass  # this is strange and can be improved, sorry. It will keep taking turns until the return from take_turn is 0, which comes from the method report_end_of_game\r\n\r\n\r\n    # REMOVE THIS, IT IS MOVING TO GAME_POSITION ##########################################\r\n    def ask_user_direction(self, message):  # Thought: This could be renamed to \"ask_user_initial_direction\" because there is a similar functionality in game_position for path determination\r\n        userInput = 0\r\n        while userInput not in range(1,3):\r\n            userInput = int(input(message))\r\n        self.direction = userInput\r\n    # END OF REMOVE #####################################################################\r\n        \r\n    def present_die(self):\r\n        input(\"Press Enter to roll the die.\\n\")  # This isn't working right, just have to look up the usage\r\n        value = self.die.roll()\r\n        print(\"Die face value: \", value)\r\n        return value\r\n\r\n    def take_turn(self, current_player: Mover):\r\n        self.set_current_player(current_player)\r\n        rolledNumber = self.present_die()\r\n        newPosition = self.game_positions.find_next_position(\r\n                                                    current_player.get_pos(),\r\n                                                    rolledNumber\r\n                                           )\r\n        current_player.update_pos(newPosition)\r\n        type = self.game_positions.get_position_type(current_player.get_pos())\r\n        card = self.draw_card_by_type(type)\r\n        self.display_question(card)\r\n        self.display_answer(card)\r\n        self.current_player.add_wedge(type)  # logic either needs to sit here to only add a wedge if it is isn't already owned OR let the mover worry about that (latter seems better)\r\n        self.report_end_of_game()  # should be a conditional\r\n        return self.report_end_of_turn()\r\n\r\n\r\n\r\n    def display_question(self, card):\r\n        print(card.question)\r\n        \r\n    def ask_user_answer(self):\r\n        input(\"Press Enter to see the answer.\\n\")\r\n\r\n\r\n    def report_end_of_turn(self):  # NOTE: THIS RETURN BOOLEAN IS BACKWARDS CURRENTLY...\r\n        input(self.current_player + \", your turn is now over.  Press Enter to finish.\")\r\n        # if turn_over:\r\n        return 0\r\n        # else\r\n        # return 1\r\n\r\n    def report_end_of_game(self, winner):\r\n        input(winner + \" has won the game!  Press Enter to finish.\")\r\n        self.end_game()  # this call might better live outside of this method, like in the calling method (presumably the main gameplay loop)\r\n\r\n    def display_answer(self, card):\r\n        print(card.answer)\r\n        val = input(\"Did \" + self.current_player.name + \" answer the question correctly? [y/n]\\n\")\r\n        if val == \"y\":\r\n            return 1\r\n        elif val == \"n\":\r\n            return 0\r\n        else:\r\n            print(\"Invalid input. Please enter y or n\")\r\n            return self.display_answer(card) # this is recursive.  consider changing\r\n\r\n        \r\n    def draw_board(self):  # for target increment\r\n        pass\r\n\r\n    def set_current_player(self, player):\r\n        self.current_player = player\r\n\r\n    def end_game(self): # kick off the sequence of ending the game (proclaim the winner, etc)\r\n        pass\r\n\r\n    def draw_card_by_type(self, type):  # Move this logic to game board\r\n        if type == \"red\":\r\n            return self.get_red_card()\r\n        if type == \"white\":\r\n            return self.get_white_card()\r\n        if type == \"blue\":\r\n            return self.get_blue_card()\r\n        if type == \"green\":\r\n            return self.get_green_card()\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- gameplay/game_board.py	(revision 54729d49c837c2c0c1f91ce63703991eea845dcf)
++++ gameplay/game_board.py	(date 1596398706756)
+@@ -10,8 +10,8 @@
+ import sys
+ 
+ LOG = logging.getLogger(__name__)
+-LOG.setLevel(logging.INFO)
+-logging.basicConfig(stream=sys.stdout, level=logging.INFO)
++LOG.setLevel(logging.CRITICAL)
++logging.basicConfig(stream=sys.stdout, level=logging.CRITICAL)
+ 
+ 
+ class GameBoard:
+@@ -66,7 +66,7 @@
+         self.set_current_player(current_player)
+         rolledNumber = self.present_die()
+         newPosition = self.game_positions.find_next_position(
+-                                                    current_player.get_pos(),
++                                                    *current_player.get_pos(),
+                                                     rolledNumber
+                                            )
+         current_player.update_pos(newPosition)
+Index: gameplay/card.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import logging\r\nimport sys\r\nLOG = logging.getLogger(__name__)\r\nLOG.setLevel(logging.INFO)\r\nlogging.basicConfig(stream=sys.stdout, level=logging.INFO)\r\n\r\nclass Card:\r\n    \r\n    def __init__(self, type, question, answer, difficulty):\r\n        LOG.info(\"Call to Card.__init__\")\r\n        self.type = type\r\n        self.question = question\r\n        self.answer = answer\r\n        self.difficulty = difficulty\r\n\r\n    def print(self):\r\n        print(\"Type:\", self.type)\r\n        print(\"Question:\", self.question)\r\n        print(\"Answer:\", self.answer)\r\n        print(\"Difficulty:\", self.difficulty)\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- gameplay/card.py	(revision 54729d49c837c2c0c1f91ce63703991eea845dcf)
++++ gameplay/card.py	(date 1596398022843)
+@@ -1,8 +1,8 @@
+ import logging
+ import sys
+ LOG = logging.getLogger(__name__)
+-LOG.setLevel(logging.INFO)
+-logging.basicConfig(stream=sys.stdout, level=logging.INFO)
++LOG.setLevel(logging.CRITICAL)
++logging.basicConfig(stream=sys.stdout, level=logging.CRITICAL)
+ 
+ class Card:
+     
+Index: gameplay/test_interactions.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import unittest\r\n\r\nfrom dice import Die\r\nfrom mover import Mover\r\nfrom game_position import GamePositions\r\nfrom card_deck import CardDeck\r\nfrom game_board import GameBoard\r\n\r\nclass TestInteractions(unittest.TestCase):\r\n    def test_main_gameplay_loop(self):\r\n        GameBoard(4, [\"Mauro\", \"Derek\", \"Jeff\", \"Stefan\"])\r\n\r\n\r\n    def test_game_board(self):\r\n        gameBoard = GameBoard(4, [\"Mauro\", \"Derek\", \"Jeff\", \"Stefan\"])\r\n        gameBoard.set_current_player(gameBoard.players[0])\r\n        gameBoard.present_die()\r\n        #We can use int direction later for the movement\r\n        direction = gameBoard.ask_user_direction(\"Enter 1 to move forward or 2 to move backwards.\")\r\n        if direction == 1:\r\n            print(\"User will move forward.\")\r\n        elif direction == 2:\r\n            print(\"User will move backward.\")\r\n        \r\n        card = gameBoard.get_green_card()\r\n        gameBoard.display_question(card)\r\n        gameBoard.ask_user_answer() #Added to prompt user before we show the answer\r\n        gameBoard.display_answer(card)\r\n\r\n    def test_question_loading(self):\r\n        print(\"Loading Card Deck\")\r\n        card = CardDecks()\r\n        print(\"Getting white card\")\r\n        thisCard = card.get_white_card()\r\n        thisCard.print()\r\n        self.assertEqual(thisCard.type, \"Independence Day\")\r\n\r\n    def test_game_position(self):\r\n        print(\"test_game_position\")\r\n        # Create a game position, assign it a category of History, index of 14, and link it with positions 15 and 61\r\n        game_position = GamePosition(14, 15, 61)\r\n        game_position.category = \"History\"\r\n        game_position.position_type = \"OUTSIDE\"\r\n        print(\"Testing game positions attributes\")\r\n        self.assertEqual(game_position.category, \"History\")\r\n        self.assertEqual(game_position.next_location_index, [15, 61])\r\n        \r\n    def test_card_deck_to_card_interaction(self):\r\n        print(\"test_card_deck_to_card_interaction\")\r\n        # Create a single deck of cards of length 25\r\n        print(\"Testing the card deck.\")\r\n        test_card_deck = CardDecks(\"Places\")\r\n        self.assertEqual(len(test_card_deck.cards), 25)\r\n\r\n    #def test_player_movement(self):\r\n    #    print(\"test_player_movement\")\r\n    #    # Create a player and mover, and move its mover 10 spaces\r\n    #    players = Players()\r\n    #    players.add_player(\"Test Player\", \"green\", 10)\r\n    #    print(\"Player's mover should start at 10 and end at 20\")\r\n    #    players.players[0].mover.move(10)\r\n    #    self.assertEqual(players.players[0].mover.current_position, 20)\r\n\r\n    def test_game_board_interactions(self):\r\n        print(\"test_game_board_interactions\")\r\n        # Create a gameboard with 4 players, 1 die of six sides, and card decks 4 card decks of 25 cards each\r\n        print(r\"Creating gameboard.  Players: 4, names: p1, p2, p3, p4\")\r\n        test_game_board = GameBoard(\r\n            num_players=4,\r\n            player_names=[\"p1\", \"p2\", \"p3\", \"p4\"]\r\n        )\r\n        print(\"Testing that four players were created\")\r\n        self.assertEqual(len(test_game_board.players.players), 4)\r\n        print(\"Testing that the dice has 6 sides\")\r\n        self.assertEqual(test_game_board.die.num_sides, 6)\r\n        print(\"Testing that the card decks have 25 in each category\")\r\n        self.assertEqual(len(test_game_board.card_decks.blue_deck.cards), 25)\r\n        self.assertEqual(len(test_game_board.card_decks.white_deck.cards), 25)\r\n        self.assertEqual(len(test_game_board.card_decks.red_deck.cards), 25)\r\n        self.assertEqual(len(test_game_board.card_decks.green_deck.cards), 25)\r\n\r\n\r\n    def test_die(self):\r\n        print(\"test_die\")\r\n        print(\"Testing a six-sided die by creating and rolling.  The result must be between 1 and 6 (inclusive).\")\r\n        die = Die(6)\r\n        face_value = die.roll()\r\n        self.assertGreater(face_value, 0)\r\n        self.assertLessEqual(face_value, 6)\r\n\r\n\r\nif __name__ == '__main__':\r\n    unittest.main()
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- gameplay/test_interactions.py	(revision 54729d49c837c2c0c1f91ce63703991eea845dcf)
++++ gameplay/test_interactions.py	(date 1596399276678)
+@@ -9,7 +9,7 @@
+ class TestInteractions(unittest.TestCase):
+     def test_main_gameplay_loop(self):
+         GameBoard(4, ["Mauro", "Derek", "Jeff", "Stefan"])
+-
++        quit()
+ 
+     def test_game_board(self):
+         gameBoard = GameBoard(4, ["Mauro", "Derek", "Jeff", "Stefan"])
+@@ -27,13 +27,13 @@
+         gameBoard.ask_user_answer() #Added to prompt user before we show the answer
+         gameBoard.display_answer(card)
+ 
+-    def test_question_loading(self):
+-        print("Loading Card Deck")
+-        card = CardDecks()
+-        print("Getting white card")
+-        thisCard = card.get_white_card()
+-        thisCard.print()
+-        self.assertEqual(thisCard.type, "Independence Day")
++    #def test_question_loading(self):
++    #    print("Loading Card Deck")
++    #    card = CardDecks()
++    #    print("Getting white card")
++    #    thisCard = card.get_white_card()
++    #    thisCard.print()
++    #    self.assertEqual(thisCard.type, "Independence Day")
+ 
+     def test_game_position(self):
+         print("test_game_position")
+Index: gameplay/card_deck.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from card import Card\r\nimport logging\r\nimport sys\r\nsys.path.append(\"../question_bank\")\r\nfrom loader import QuestionLoader\r\nLOG = logging.getLogger(__name__)\r\nLOG.setLevel(logging.INFO)\r\nlogging.basicConfig(stream=sys.stdout, level=logging.INFO)\r\nimport random\r\n            \r\nclass CardDeck:\r\n    \r\n    def __init__(self, type):\r\n        LOG.info(\"Call to CardDeck.__init__\")\r\n        path = r\"../question_bank/\"\r\n        self.cards = []\r\n        self.type = type\r\n        self.load_questions_from_file(path, type)\r\n\r\n    def load_questions_from_file(self, path: str, type):\r\n        LOG.info(\"Call to CardDeck.load_questions_from_file\")\r\n        self.cards = QuestionLoader(path, type).question_collection\r\n        print(\"Sample card question\", self.cards[0].question)\r\n        print(\"Sample card answer\", self.cards[0].answer)\r\n\r\n    def deal_card(self):\r\n        n = len(self.cards)-1\r\n        i = random.randint(0,n)\r\n        card = self.cards.pop(i)\r\n        return card\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- gameplay/card_deck.py	(revision 54729d49c837c2c0c1f91ce63703991eea845dcf)
++++ gameplay/card_deck.py	(date 1596398111060)
+@@ -4,8 +4,8 @@
+ sys.path.append("../question_bank")
+ from loader import QuestionLoader
+ LOG = logging.getLogger(__name__)
+-LOG.setLevel(logging.INFO)
+-logging.basicConfig(stream=sys.stdout, level=logging.INFO)
++LOG.setLevel(logging.CRITICAL)
++logging.basicConfig(stream=sys.stdout, level=logging.CRITICAL)
+ import random
+             
+ class CardDeck:
+@@ -20,8 +20,8 @@
+     def load_questions_from_file(self, path: str, type):
+         LOG.info("Call to CardDeck.load_questions_from_file")
+         self.cards = QuestionLoader(path, type).question_collection
+-        print("Sample card question", self.cards[0].question)
+-        print("Sample card answer", self.cards[0].answer)
++        #print("Sample card question", self.cards[0].question)
++        #print("Sample card answer", self.cards[0].answer)
+ 
+     def deal_card(self):
+         n = len(self.cards)-1
+Index: gameplay/mover.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import logging\r\nimport sys\r\n\r\n#from game_position import GamePosition\r\n\r\nLOG = logging.getLogger(__name__)\r\nLOG.setLevel(logging.INFO)\r\nlogging.basicConfig(stream=sys.stdout, level=logging.INFO)\r\n\r\nclass Mover:\r\n    def __init__(\r\n        self, name: str, mover_color: str, start_pos_x: int, start_pos_y: int\r\n    ):\r\n        LOG.info(\"Call to mover.__init\")\r\n        self.name = name\r\n        self.mover_color = mover_color\r\n        self.curr_x_pos = start_pos_x\r\n        self.curr_y_pos = start_pos_y\r\n        self.wedges = []  # list of wedge colors that the player has obtained\r\n        self.on_spokes = False\r\n        self.mover_color = \"\"\r\n\r\n    def update_pos(self, new_x: int, new_y: int):\r\n        LOG.info(\"Call to mover.move\")\r\n        LOG.info(\"Moving the player's mover to position \"+str(new_x)+\",\"+str(new_y))\r\n        self.curr_x_pos = new_x\r\n        self.curr_y_pos = new_y\r\n        \r\n    def get_pos(self):\r\n        return self.curr_x_pos, self.curr_y_pos\r\n\r\n    def add_wedge(self, color):\r\n        LOG.info(\"Call to mover.add_wedge\")\r\n        LOG.info(\"Adding wedge\")\r\n        if color not in [\"red\", \"blue\", \"white\", \"green\"]:\r\n            LOG.info(\"Incorrect color type!\")\r\n        self.wedges.append(color)\r\n\r\n    def render(self):\r\n        # Tie into the gui here using the following inputs FOR TARGET INCREMENT\r\n        #self.curr_x_pos\r\n        #self.curr_y_pos\r\n        pass\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- gameplay/mover.py	(revision 54729d49c837c2c0c1f91ce63703991eea845dcf)
++++ gameplay/mover.py	(date 1596398131781)
+@@ -4,8 +4,8 @@
+ #from game_position import GamePosition
+ 
+ LOG = logging.getLogger(__name__)
+-LOG.setLevel(logging.INFO)
+-logging.basicConfig(stream=sys.stdout, level=logging.INFO)
++LOG.setLevel(logging.CRITICAL)
++logging.basicConfig(stream=sys.stdout, level=logging.CRITICAL)
+ 
+ class Mover:
+     def __init__(
+Index: gameplay/dice.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import numpy as np\r\nimport logging\r\nimport sys\r\nLOG = logging.getLogger(__name__)\r\nLOG.setLevel(logging.INFO)\r\nlogging.basicConfig(stream=sys.stdout, level=logging.INFO)\r\n\r\nclass Die:\r\n    \r\n    def __init__(self, num_sides):\r\n        LOG.info(\"Call to Die.__init__\")\r\n        self.num_sides = num_sides\r\n\r\n    def roll(self):\r\n        LOG.info(\"Call to Die.roll\")\r\n        this_number = np.random.randint(1, self.num_sides+1)\r\n        LOG.info(\"Rolling die: \" + str(this_number))\r\n        return this_number
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- gameplay/dice.py	(revision 54729d49c837c2c0c1f91ce63703991eea845dcf)
++++ gameplay/dice.py	(date 1596397972111)
+@@ -2,8 +2,8 @@
+ import logging
+ import sys
+ LOG = logging.getLogger(__name__)
+-LOG.setLevel(logging.INFO)
+-logging.basicConfig(stream=sys.stdout, level=logging.INFO)
++LOG.setLevel(logging.CRITICAL)
++logging.basicConfig(stream=sys.stdout, level=logging.CRITICAL)
+ 
+ class Die:
+     
+Index: question_bank/loader.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import logging\r\nimport sys\r\nimport os\r\nimport csv\r\nfrom card import Card\r\nsys.path.append(r\"../gameplay\")\r\nLOG = logging.getLogger(__name__)\r\nLOG.setLevel(logging.INFO)\r\nlogging.basicConfig(stream=sys.stdout, level=logging.INFO)\r\n\r\nclass QuestionLoader:\r\n    \r\n    def __init__(self, path_to_question_files: str, type: str):\r\n        LOG.info(\"Call to QuestionLoader.__init__\")\r\n        self.type = type\r\n        self.question_file_path = path_to_question_files\r\n        self.question_collection = self._load_questions()\r\n        \r\n    def _load_questions(self):\r\n        LOG.info(\"Call to QuestionLoader._load_questions\")\r\n        LOG.info(\"Loading questions from {}\".format(self.question_file_path))\r\n\r\n        questions = []\r\n\r\n        with open(os.path.join(self.question_file_path, \"questions.txt\")) as file:\r\n            question_reader = csv.reader(file, delimiter='\\t')\r\n            for thisLine in question_reader:\r\n                if thisLine[0] == self.type:\r\n                    questions.append(Card(thisLine[0], thisLine[1], thisLine[2], thisLine[5]))\r\n                    print(thisLine)\r\n        return questions\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- question_bank/loader.py	(revision 54729d49c837c2c0c1f91ce63703991eea845dcf)
++++ question_bank/loader.py	(date 1596398085584)
+@@ -5,8 +5,8 @@
+ from card import Card
+ sys.path.append(r"../gameplay")
+ LOG = logging.getLogger(__name__)
+-LOG.setLevel(logging.INFO)
+-logging.basicConfig(stream=sys.stdout, level=logging.INFO)
++LOG.setLevel(logging.CRITICAL)
++logging.basicConfig(stream=sys.stdout, level=logging.CRITICAL)
+ 
+ class QuestionLoader:
+     
+@@ -27,6 +27,6 @@
+             for thisLine in question_reader:
+                 if thisLine[0] == self.type:
+                     questions.append(Card(thisLine[0], thisLine[1], thisLine[2], thisLine[5]))
+-                    print(thisLine)
++                    #print(thisLine)
+         return questions
+ 
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"ec97b675-890c-470f-807c-95cea7637068\" name=\"Default Changelist\" comment=\"\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/gameplay/card_deck.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/gameplay/card_deck.py\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/gameplay/game_board.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/gameplay/game_board.py\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/gameplay/game_position.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/gameplay/game_position.py\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/gameplay/test_interactions.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/gameplay/test_interactions.py\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n    <option name=\"UPDATE_TYPE\" value=\"REBASE\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"1ebengOShRXPymUdkLgmwHXRRa5\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">\r\n    <property name=\"RunOnceActivity.OpenProjectViewOnStart\" value=\"true\" />\r\n    <property name=\"RunOnceActivity.ShowReadmeOnStart\" value=\"true\" />\r\n    <property name=\"last_opened_file_path\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"Python tests.Unittests for test_interactions.TestInteractions.test_main_gameplay_loop\">\r\n    <configuration name=\"card_deck\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"TrivialPurfuit\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <envs>\r\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\r\n      </envs>\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$/gameplay\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/gameplay/card_deck.py\" />\r\n      <option name=\"PARAMETERS\" value=\"\" />\r\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\r\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\r\n      <option name=\"MODULE_MODE\" value=\"false\" />\r\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\r\n      <option name=\"INPUT_FILE\" value=\"\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"Unittests for test_interactions.TestInteractions\" type=\"tests\" factoryName=\"Unittests\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"TrivialPurfuit\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$/gameplay\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <option name=\"_new_additionalArguments\" value=\"&quot;&quot;\" />\r\n      <option name=\"_new_target\" value=\"&quot;test_interactions.TestInteractions&quot;\" />\r\n      <option name=\"_new_targetType\" value=\"&quot;PYTHON&quot;\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"Unittests for test_interactions.TestInteractions.test_game_board\" type=\"tests\" factoryName=\"Unittests\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"TrivialPurfuit\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$/gameplay\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <option name=\"_new_additionalArguments\" value=\"&quot;&quot;\" />\r\n      <option name=\"_new_target\" value=\"&quot;test_interactions.TestInteractions.test_game_board&quot;\" />\r\n      <option name=\"_new_targetType\" value=\"&quot;PYTHON&quot;\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"Unittests for test_interactions.TestInteractions.test_main_gameplay_loop\" type=\"tests\" factoryName=\"Unittests\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"TrivialPurfuit\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$/gameplay\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <option name=\"_new_additionalArguments\" value=\"&quot;&quot;\" />\r\n      <option name=\"_new_target\" value=\"&quot;test_interactions.TestInteractions.test_main_gameplay_loop&quot;\" />\r\n      <option name=\"_new_targetType\" value=\"&quot;PYTHON&quot;\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"Unittests for test_interactions.TestInteractions.test_question_loading\" type=\"tests\" factoryName=\"Unittests\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"TrivialPurfuit\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$/gameplay\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <option name=\"_new_additionalArguments\" value=\"&quot;&quot;\" />\r\n      <option name=\"_new_target\" value=\"&quot;test_interactions.TestInteractions.test_question_loading&quot;\" />\r\n      <option name=\"_new_targetType\" value=\"&quot;PYTHON&quot;\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Python tests.Unittests for test_interactions.TestInteractions.test_main_gameplay_loop\" />\r\n        <item itemvalue=\"Python tests.Unittests for test_interactions.TestInteractions.test_game_board\" />\r\n        <item itemvalue=\"Python tests.Unittests for test_interactions.TestInteractions\" />\r\n        <item itemvalue=\"Python tests.Unittests for test_interactions.TestInteractions.test_question_loading\" />\r\n        <item itemvalue=\"Python.card_deck\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SvnConfiguration\">\r\n    <configuration />\r\n  </component>\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"ec97b675-890c-470f-807c-95cea7637068\" name=\"Default Changelist\" comment=\"\" />\r\n      <created>1594594887493</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1594594887493</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"Added more tests in test_interactions.py\">\r\n      <created>1594596755327</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1594596755327</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"Added verbose call tracing\">\r\n      <created>1594597470581</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1594597470581</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"3\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"Added more tests in test_interactions.py\" />\r\n    <MESSAGE value=\"Added verbose call tracing\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Added verbose call tracing\" />\r\n  </component>\r\n  <component name=\"WindowStateProjectService\">\r\n    <state x=\"587\" y=\"88\" key=\"CommitChangelistDialog2\" timestamp=\"1594597469778\">\r\n      <screen x=\"0\" y=\"0\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state x=\"587\" y=\"88\" key=\"CommitChangelistDialog2/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040\" timestamp=\"1594597469778\" />\r\n    <state width=\"1899\" height=\"282\" key=\"GridCell.Tab.0.bottom\" timestamp=\"1596395624435\">\r\n      <screen x=\"0\" y=\"0\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state width=\"1899\" height=\"348\" key=\"GridCell.Tab.0.bottom/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040\" timestamp=\"1596236369155\" />\r\n    <state width=\"1899\" height=\"282\" key=\"GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040\" timestamp=\"1596395624435\" />\r\n    <state width=\"1899\" height=\"282\" key=\"GridCell.Tab.0.center\" timestamp=\"1596395624434\">\r\n      <screen x=\"0\" y=\"0\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state width=\"1899\" height=\"348\" key=\"GridCell.Tab.0.center/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040\" timestamp=\"1596236369155\" />\r\n    <state width=\"1899\" height=\"282\" key=\"GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040\" timestamp=\"1596395624434\" />\r\n    <state width=\"1899\" height=\"282\" key=\"GridCell.Tab.0.left\" timestamp=\"1596395624434\">\r\n      <screen x=\"0\" y=\"0\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state width=\"1899\" height=\"348\" key=\"GridCell.Tab.0.left/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040\" timestamp=\"1596236369154\" />\r\n    <state width=\"1899\" height=\"282\" key=\"GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040\" timestamp=\"1596395624434\" />\r\n    <state width=\"1899\" height=\"282\" key=\"GridCell.Tab.0.right\" timestamp=\"1596395624434\">\r\n      <screen x=\"0\" y=\"0\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state width=\"1899\" height=\"348\" key=\"GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040\" timestamp=\"1596236369155\" />\r\n    <state width=\"1899\" height=\"282\" key=\"GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040\" timestamp=\"1596395624434\" />\r\n    <state width=\"1899\" height=\"348\" key=\"GridCell.Tab.1.bottom\" timestamp=\"1596236369155\">\r\n      <screen x=\"0\" y=\"0\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state width=\"1899\" height=\"348\" key=\"GridCell.Tab.1.bottom/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040\" timestamp=\"1596236369155\" />\r\n    <state width=\"1899\" height=\"348\" key=\"GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040\" timestamp=\"1596145264503\" />\r\n    <state width=\"1899\" height=\"348\" key=\"GridCell.Tab.1.center\" timestamp=\"1596236369155\">\r\n      <screen x=\"0\" y=\"0\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state width=\"1899\" height=\"348\" key=\"GridCell.Tab.1.center/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040\" timestamp=\"1596236369155\" />\r\n    <state width=\"1899\" height=\"348\" key=\"GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040\" timestamp=\"1596145264503\" />\r\n    <state width=\"1899\" height=\"348\" key=\"GridCell.Tab.1.left\" timestamp=\"1596236369155\">\r\n      <screen x=\"0\" y=\"0\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state width=\"1899\" height=\"348\" key=\"GridCell.Tab.1.left/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040\" timestamp=\"1596236369155\" />\r\n    <state width=\"1899\" height=\"348\" key=\"GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040\" timestamp=\"1596145264503\" />\r\n    <state width=\"1899\" height=\"348\" key=\"GridCell.Tab.1.right\" timestamp=\"1596236369155\">\r\n      <screen x=\"0\" y=\"0\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state width=\"1899\" height=\"348\" key=\"GridCell.Tab.1.right/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040\" timestamp=\"1596236369155\" />\r\n    <state width=\"1899\" height=\"348\" key=\"GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040\" timestamp=\"1596145264503\" />\r\n    <state x=\"769\" y=\"434\" key=\"com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2\" timestamp=\"1596141469092\">\r\n      <screen x=\"0\" y=\"0\" width=\"1920\" height=\"1040\" />\r\n    </state>\r\n    <state x=\"769\" y=\"434\" key=\"com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040\" timestamp=\"1594597442494\" />\r\n    <state x=\"769\" y=\"434\" key=\"com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040\" timestamp=\"1596141469092\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/workspace.xml	(revision 54729d49c837c2c0c1f91ce63703991eea845dcf)
++++ .idea/workspace.xml	(date 1596499649332)
+@@ -3,10 +3,14 @@
+   <component name="ChangeListManager">
+     <list default="true" id="ec97b675-890c-470f-807c-95cea7637068" name="Default Changelist" comment="">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/gameplay/card.py" beforeDir="false" afterPath="$PROJECT_DIR$/gameplay/card.py" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/gameplay/card_deck.py" beforeDir="false" afterPath="$PROJECT_DIR$/gameplay/card_deck.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/gameplay/dice.py" beforeDir="false" afterPath="$PROJECT_DIR$/gameplay/dice.py" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/gameplay/game_board.py" beforeDir="false" afterPath="$PROJECT_DIR$/gameplay/game_board.py" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/gameplay/game_position.py" beforeDir="false" afterPath="$PROJECT_DIR$/gameplay/game_position.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/gameplay/mover.py" beforeDir="false" afterPath="$PROJECT_DIR$/gameplay/mover.py" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/gameplay/test_interactions.py" beforeDir="false" afterPath="$PROJECT_DIR$/gameplay/test_interactions.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/question_bank/loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/question_bank/loader.py" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -108,8 +112,8 @@
+     <recent_temporary>
+       <list>
+         <item itemvalue="Python tests.Unittests for test_interactions.TestInteractions.test_main_gameplay_loop" />
+-        <item itemvalue="Python tests.Unittests for test_interactions.TestInteractions.test_game_board" />
+         <item itemvalue="Python tests.Unittests for test_interactions.TestInteractions" />
++        <item itemvalue="Python tests.Unittests for test_interactions.TestInteractions.test_game_board" />
+         <item itemvalue="Python tests.Unittests for test_interactions.TestInteractions.test_question_loading" />
+         <item itemvalue="Python.card_deck" />
+       </list>
+@@ -153,26 +157,26 @@
+       <screen x="0" y="0" width="1920" height="1040" />
+     </state>
+     <state x="587" y="88" key="CommitChangelistDialog2/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1594597469778" />
+-    <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1596395624435">
++    <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1596409987127">
+       <screen x="0" y="0" width="1920" height="1040" />
+     </state>
+-    <state width="1899" height="348" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1596236369155" />
+-    <state width="1899" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1596395624435" />
+-    <state width="1899" height="282" key="GridCell.Tab.0.center" timestamp="1596395624434">
++    <state width="1899" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1596409987127" />
++    <state width="1899" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1596398730046" />
++    <state width="1899" height="282" key="GridCell.Tab.0.center" timestamp="1596409987127">
+       <screen x="0" y="0" width="1920" height="1040" />
+     </state>
+-    <state width="1899" height="348" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1596236369155" />
+-    <state width="1899" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1596395624434" />
+-    <state width="1899" height="282" key="GridCell.Tab.0.left" timestamp="1596395624434">
++    <state width="1899" height="282" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1596409987127" />
++    <state width="1899" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1596398730046" />
++    <state width="1899" height="282" key="GridCell.Tab.0.left" timestamp="1596409987127">
+       <screen x="0" y="0" width="1920" height="1040" />
+     </state>
+-    <state width="1899" height="348" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1596236369154" />
+-    <state width="1899" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1596395624434" />
+-    <state width="1899" height="282" key="GridCell.Tab.0.right" timestamp="1596395624434">
++    <state width="1899" height="282" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1596409987127" />
++    <state width="1899" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1596398730046" />
++    <state width="1899" height="282" key="GridCell.Tab.0.right" timestamp="1596409987127">
+       <screen x="0" y="0" width="1920" height="1040" />
+     </state>
+-    <state width="1899" height="348" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1596236369155" />
+-    <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1596395624434" />
++    <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1596409987127" />
++    <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1596398730046" />
+     <state width="1899" height="348" key="GridCell.Tab.1.bottom" timestamp="1596236369155">
+       <screen x="0" y="0" width="1920" height="1040" />
+     </state>

@@ -1,12 +1,39 @@
 import unittest
 
+from dice import Die
+from mover import Mover
+from game_position import GamePositions
 from card_deck import CardDeck
 from game_board import GameBoard
-from dice import Die
-from players import Players
-from game_position import GamePosition
 
 class TestInteractions(unittest.TestCase):
+    def test_main_gameplay_loop(self):
+        GameBoard(4, ["Mauro", "Derek", "Jeff", "Stefan"])
+        quit()
+
+    def test_game_board(self):
+        gameBoard = GameBoard(4, ["Mauro", "Derek", "Jeff", "Stefan"])
+        gameBoard.set_current_player(gameBoard.players[0])
+        gameBoard.present_die()
+        #We can use int direction later for the movement
+        direction = gameBoard.ask_user_direction("Enter 1 to move forward or 2 to move backwards.")
+        if direction == 1:
+            print("User will move forward.")
+        elif direction == 2:
+            print("User will move backward.")
+        
+        card = gameBoard.get_green_card()
+        gameBoard.display_question(card)
+        gameBoard.ask_user_answer() #Added to prompt user before we show the answer
+        gameBoard.display_answer(card)
+
+    #def test_question_loading(self):
+    #    print("Loading Card Deck")
+    #    card = CardDecks()
+    #    print("Getting white card")
+    #    thisCard = card.get_white_card()
+    #    thisCard.print()
+    #    self.assertEqual(thisCard.type, "Independence Day")
 
     def test_game_position(self):
         print("test_game_position")
@@ -22,17 +49,17 @@ class TestInteractions(unittest.TestCase):
         print("test_card_deck_to_card_interaction")
         # Create a single deck of cards of length 25
         print("Testing the card deck.")
-        test_card_deck = CardDeck()
+        test_card_deck = CardDecks("Places")
         self.assertEqual(len(test_card_deck.cards), 25)
 
-    def test_player_movement(self):
-        print("test_player_movement")
-        # Create a player and mover, and move its mover 10 spaces
-        players = Players()
-        players.add_player("Test Player", "green", 10)
-        print("Player's mover should start at 10 and end at 20")
-        players.players[0].mover.move(10)
-        self.assertEqual(players.players[0].mover.current_position, 20)
+    #def test_player_movement(self):
+    #    print("test_player_movement")
+    #    # Create a player and mover, and move its mover 10 spaces
+    #    players = Players()
+    #    players.add_player("Test Player", "green", 10)
+    #    print("Player's mover should start at 10 and end at 20")
+    #    players.players[0].mover.move(10)
+    #    self.assertEqual(players.players[0].mover.current_position, 20)
 
     def test_game_board_interactions(self):
         print("test_game_board_interactions")
