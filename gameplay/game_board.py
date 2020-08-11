@@ -10,6 +10,7 @@ from game_position import GamePositions
 import logging
 import sys
 import random
+from game_board_gui import GameBoardGUI
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel(logging.CRITICAL)
@@ -41,6 +42,9 @@ class GameBoard:
         self.current_player = None # It might be useful to have this property to easily access the player whose turn it is
         self.direction = ""  # The direction the player has chosen to move (not yet sure what values this can take)
 
+        self.pixel_to_position_scaling_factor = 30  # Multiple a game_position location (in matrix) by this number to get the pixel location equivalent
+        self.pixel_to_position_offset = (300, 100)  # add these x and y values to the scaled pixel location to get starting square (since it isn't in top left corner)
+
         for player_num in range(0, num_players):
             self.players.append(
                 Mover(
@@ -50,6 +54,12 @@ class GameBoard:
                     start_pos_y=0
                 )
             )
+
+        self.GUI = GameBoardGUI()
+        self.GUI.draw_movers(self.players,
+                   self.pixel_to_position_scaling_factor,
+                   self.pixel_to_position_offset)
+
 
 
     def main_gameplay_loop(self):
@@ -162,4 +172,4 @@ class GameBoard:
 
 if __name__ == "__main__":
     gb = GameBoard(4, ['r', 'w', 'g', 'b'])
-    gb.main_gameplay_loop()
+    #gb.main_gameplay_loop()

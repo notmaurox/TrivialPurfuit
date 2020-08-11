@@ -17,6 +17,8 @@ class GamePositions:
         self.center_index = int((side_length-1)/2)
         self.total_perimeter = (side_length*4)-4
         self.max_index = self.side_length-1
+        self.x_pixel_location = 99
+        self.y_pixel_location = 99
         
         # Due do the nature of this matrix, the coordinate system is accessed
         # by using self.matrix[y][x]
