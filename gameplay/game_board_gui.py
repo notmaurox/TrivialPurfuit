@@ -9,18 +9,31 @@ class GameBoardGUI:
 
         self.window = Tk()
 
-        load = im.open('game_board.jpg')
-        render = ImageTk.PhotoImage(load)
+        self.load = im.open('game_board.jpg')
+        self.photoImage = ImageTk.PhotoImage(self.load)
+        #self.window.update()
+
+    def render(self, players, pixel_to_position_scaling_factor, pixel_to_position_offset):
+        # Draw board (stationary)
         self.window.title("Trivial Purfuit")
         self.window.configure(background='black')
         self.canvas = Canvas(self.window, width=self.win_x, height=self.win_y)
 
-        self.canvas.pack() # this might be redundant with w.grid()
+        #self.canvas.pack() # this might be redundant with w.grid()
 
-        self.canvas.create_image(self.win_x/2, self.win_y/2+100, image=render)
+        self.canvas.create_image(self.win_x/2, self.win_y/2+100, image=self.photoImage)
         self.canvas.grid()
 
-        self.window.mainloop()  # not sure where this lives.  Here?
+        # make buttons, text (should it be here or in init?)
+
+        # Draw movers
+        self.draw_movers(players,
+                             pixel_to_position_scaling_factor,
+                             pixel_to_position_offset)
+
+        #self.window.mainloop()  # not sure where this lives.  Here?
+        self.window.update()
+
 
     def draw_movers(self, players, pixel_to_position_scaling_factor: float,
                    pixel_to_position_offset: tuple ):
@@ -28,6 +41,8 @@ class GameBoardGUI:
             self.draw_mover(player,
                    pixel_to_position_scaling_factor,
                    pixel_to_position_offset)
+        #self.window.update()
+
 
     def draw_mover(self, mover,
                    pixel_to_position_scaling_factor: float,
@@ -39,7 +54,7 @@ class GameBoardGUI:
                 pixel_to_position_offset[0] + mover.curr_x_pos * pixel_to_position_scaling_factor + 40,
                 pixel_to_position_offset[1] + mover.curr_y_pos * pixel_to_position_scaling_factor + 40,
                 outline=mover.mover_color,
-                fill="grey",
+                fill='grey',
                 width=2)
 
         for wedge in mover.wedges:

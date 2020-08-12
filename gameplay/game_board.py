@@ -45,20 +45,23 @@ class GameBoard:
         self.pixel_to_position_scaling_factor = 30  # Multiple a game_position location (in matrix) by this number to get the pixel location equivalent
         self.pixel_to_position_offset = (300, 100)  # add these x and y values to the scaled pixel location to get starting square (since it isn't in top left corner)
 
+        colors = ['red', 'white', 'blue', 'green']
         for player_num in range(0, num_players):
             self.players.append(
                 Mover(
                     name=player_names[player_num],
-                    mover_color=str(player_num),
+                    mover_color=colors[player_num],
                     start_pos_x=0,
                     start_pos_y=0
                 )
             )
 
         self.GUI = GameBoardGUI()
-        self.GUI.draw_movers(self.players,
+        self.GUI.render(
+                   self.players,
                    self.pixel_to_position_scaling_factor,
-                   self.pixel_to_position_offset)
+                   self.pixel_to_position_offset
+                   )
 
 
 
@@ -67,6 +70,11 @@ class GameBoard:
             for player in self.players:
                 self.take_turn(player)
                 self.game_positions.render(self.players)
+                self.GUI.render(
+                    self.players,
+                    self.pixel_to_position_scaling_factor,
+                    self.pixel_to_position_offset
+                )
 
         
     def present_die(self):
