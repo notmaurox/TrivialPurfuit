@@ -163,12 +163,12 @@ class GamePositions:
                     dir = input(usr_msg)
                 return dir
 
-        if self.start_of_turn:
-            self.start_direction = 0
-            message = "pick direction to move across board (fwd/rev)"
+        #if self.start_of_turn:
+            #self.start_direction = 0
+            #message = "pick direction to move across board (fwd/rev)"
             #self.render(players)
-            while self.start_direction not in ['fwd', 'rev']:
-                self.start_direction = input(message)
+            #while self.start_direction not in ['fwd', 'rev']:
+            #    self.start_direction = input(message)
 
         if self.start_direction == 'fwd':
             if pos_x == 0 and pos_y != (self.max_index):

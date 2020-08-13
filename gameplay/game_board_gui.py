@@ -1,5 +1,5 @@
 from PIL import Image as im, ImageTk
-from tkinter import Tk, Label, Canvas
+from tkinter import Tk, Label, Canvas, Button
 
 class GameBoardGUI:
 
@@ -13,26 +13,30 @@ class GameBoardGUI:
         self.photoImage = ImageTk.PhotoImage(self.load)
         #self.window.update()
 
-    def render(self, players, pixel_to_position_scaling_factor, pixel_to_position_offset):
+    def render(self, game_board, players, pixel_to_position_scaling_factor, pixel_to_position_offset):
         # Draw board (stationary)
         self.window.title("Trivial Purfuit")
         self.window.configure(background='black')
         self.canvas = Canvas(self.window, width=self.win_x, height=self.win_y)
+        self.canvas.grid()
 
         #self.canvas.pack() # this might be redundant with w.grid()
 
         self.canvas.create_image(self.win_x/2, self.win_y/2+100, image=self.photoImage)
-        self.canvas.grid()
 
         # make buttons, text (should it be here or in init?)
+        b = Button(self.window, text="OK", padx=2, command=game_board.present_die)
+        b.grid(row=2, column=1)
 
         # Draw movers
         self.draw_movers(players,
                              pixel_to_position_scaling_factor,
                              pixel_to_position_offset)
 
-        #self.window.mainloop()  # not sure where this lives.  Here?
-        self.window.update()
+
+
+        self.window.mainloop()  # not sure where this lives.  Here?
+        #self.window.update()
 
 
     def draw_movers(self, players, pixel_to_position_scaling_factor: float,
