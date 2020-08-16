@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ec97b675-890c-470f-807c-95cea7637068" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gameplay/game_board.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/gameplay/game_board.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gameplay/game_board.py" beforeDir="false" afterPath="$PROJECT_DIR$/gameplay/game_board.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/question_bank/questions2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/question_bank/questions2.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +31,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.question_driver">
+  <component name="RunManager" selected="Python.game_board">
     <configuration name="game_board" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="TrivialPurfuit" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -127,8 +125,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.question_driver" />
         <item itemvalue="Python.game_board" />
+        <item itemvalue="Python.question_driver" />
         <item itemvalue="Python.game_board_gui" />
         <item itemvalue="Python tests.Unittests in test_interactions.py" />
         <item itemvalue="Python tests.Unittests for test_interactions.TestInteractions.test_main_gameplay_loop" />

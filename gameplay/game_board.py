@@ -95,7 +95,7 @@ class GameBoard:
 
         b = Button(self.window, text="Forward", padx=2, command=self.set_start_direction_fwd)
         b.grid(row=4, column=1)
-        b = Button(self.window, text="Reverse", padx=2, command=self.set_start_direction_fwd)
+        b = Button(self.window, text="Reverse", padx=2, command=self.set_start_direction_rev)
         b.grid(row=4, column=0)
 
 
