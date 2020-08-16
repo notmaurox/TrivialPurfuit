@@ -32,3 +32,5 @@ Places	This colony had the largest number of signers - 9.	Pennsylvania
 Places	In what colony did riots break out when George Washington read the Declaration in public on July 9, 1776?	New York
 Places	Roger Sherman, who also later signed the Articles of Confederation and the Constitution, was from which colony?	Connecticut
 Independence Day	This is a test question	This is a test answer	
+Events	Who did that thing	Me	
+People	Who	Him	

@@ -45,8 +45,8 @@ class GameBoard:
         self.current_player = None # It might be useful to have this property to easily access the player whose turn it is
         self.direction = ""  # The direction the player has chosen to move (not yet sure what values this can take)
 
-        self.pixel_to_position_scaling_factor = 30  # Multiple a game_position location (in matrix) by this number to get the pixel location equivalent
-        self.pixel_to_position_offset = (300, 100)  # add these x and y values to the scaled pixel location to get starting square (since it isn't in top left corner)
+        self.pixel_to_position_scaling_factor = 78  # Multiple a game_position location (in matrix) by this number to get the pixel location equivalent
+        self.pixel_to_position_offset = (12, 12)  # add these x and y values to the scaled pixel location to get starting square (since it isn't in top left corner)
 
         colors = ['red', 'white', 'blue', 'green']
         for player_num in range(0, num_players):
@@ -69,8 +69,8 @@ class GameBoard:
 
 
     def main_gameplay_loop_GUI(self):
-        self.win_x = 1331
-        self.win_y = 900
+        self.win_x = 829
+        self.win_y = 830
         self.window = Tk()
 
         self.load = im.open('game_board.jpg')
@@ -81,7 +81,7 @@ class GameBoard:
         self.window.configure(background='black')
         self.canvas = Canvas(self.window, width=self.win_x, height=self.win_y)
 
-        self.canvas.create_image(self.win_x / 2, self.win_y / 2 + 100, image=self.photoImage)
+        self.canvas.create_image(self.win_x / 2, self.win_y / 2, image=self.photoImage)
         self.canvas.grid()
 
         # make label
@@ -312,8 +312,8 @@ class GameBoard:
         self.canvas.create_oval(
                 pixel_to_position_offset[0] + mover.curr_x_pos * pixel_to_position_scaling_factor,
                 pixel_to_position_offset[1] + mover.curr_y_pos * pixel_to_position_scaling_factor,
-                pixel_to_position_offset[0] + mover.curr_x_pos * pixel_to_position_scaling_factor + 40,
-                pixel_to_position_offset[1] + mover.curr_y_pos * pixel_to_position_scaling_factor + 40,
+                pixel_to_position_offset[0] + mover.curr_x_pos * pixel_to_position_scaling_factor + 25,
+                pixel_to_position_offset[1] + mover.curr_y_pos * pixel_to_position_scaling_factor + 25,
                 outline=mover.mover_color,
                 fill='grey',
                 width=2)
