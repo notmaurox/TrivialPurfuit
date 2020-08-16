@@ -3,14 +3,30 @@ import os.path
 
 __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
+
+#Method to save new questions to file
 def writeFile():
-    file = open("test.txt","a+")
-    file.write('\n' + question_entry.get() + ' / ' + answer_entry.get())
+    file = open("questions2.txt","a+")
+    if people.get() == 1:
+        file.write('\n'+"People"+'\t'+question_entry.get()+'\t'+answer_entry.get()+'\t')
+    elif events.get() == 1:
+        file.write('\n'+"Events"+'\t'+question_entry.get()+'\t'+answer_entry.get()+'\t')
+    elif places.get() == 1:
+        file.write('\n'+"Places"+'\t'+question_entry.get()+'\t'+answer_entry.get()+'\t')
+    elif independence.get() == 1:
+        file.write('\n'+"Independence Day"+'\t'+question_entry.get()+'\t'+answer_entry.get()+'\t')
     file.close()
     
 def openFile():
-    with open("questions.txt", "r") as f:
-        tk.Label(question_bank, text=f.read()).grid(row=15)
+    with open("questions2.txt", "r") as f:
+        question_label = tk.Label(question_frame, text=f.read())
+        question_label.grid(row=15)
+        
+    
+        
+        
+def clearQuestions():
+    question_frame.grid_forget()
     
     
 question_bank = tk.Tk()
@@ -25,6 +41,9 @@ filemenu.add_command(label="Exit", command=question_bank.quit)
 menubar.add_cascade(label="File", menu=filemenu)
 
 question_bank.config(menu=menubar)
+
+question_frame = tk.Frame(question_bank)
+question_frame.grid(row=15)
 
 people = tk.IntVar()
 events = tk.IntVar()
@@ -56,6 +75,10 @@ write_button.grid(row=8)
 view_button = tk.Button(question_bank)
 view_button.config(text = "View Questions", command = openFile)
 view_button.grid(row=9)
+
+clear_button = tk.Button(question_bank)
+clear_button.config(text = "Clear Questions", command = clearQuestions)
+clear_button.grid(row=10)
 
 
 question_bank.mainloop()
