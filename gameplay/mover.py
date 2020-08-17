@@ -20,11 +20,11 @@ class Mover:
         self.on_spokes = False
         self.mover_color = mover_color  # Right now the mover colors are char of 0,1,2,3.  Should these be changed to 'r','g','b', etc (or 'red','green','blue', etc)??
 
-        mover_offset_constant = 5  # pixel offset to make sure the movers aren't on top of eachother
+        mover_offset_constant = 18  # pixel offset to make sure the movers aren't on top of eachother
         if mover_color == "red":
             self.mover_offset_x = mover_offset_constant
             self.mover_offset_y = mover_offset_constant
-        elif mover_color == "yellow":
+        elif mover_color == "white":
             self.mover_offset_x = mover_offset_constant
             self.mover_offset_y = -mover_offset_constant
         elif mover_color == "green":
@@ -48,6 +48,7 @@ class Mover:
         LOG.info("Call to mover.add_wedge")
         LOG.info("Adding wedge")
         expected_wedges = ["red", "blue", "white", "green"]
+        print("Checking if wedge of color:", color, "is in", expected_wedges)
         if color not in expected_wedges:
             LOG.info("Incorrect color type!")
             quit()
