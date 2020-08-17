@@ -82,29 +82,29 @@ class GameBoard:
         self.canvas = Canvas(self.window, width=self.win_x, height=self.win_y)
 
         self.canvas.create_image(self.win_x / 2, self.win_y / 2, image=self.photoImage)
-        self.canvas.grid()
+        self.canvas.grid(row=0, column=0, rowspan=40, columnspan=40)
 
         # make label
         self.label = Label(self.window, text="",)
-        self.label.grid(row=1, column=0)
+        self.label.grid(row=41, column=20)
         self.set_current_player(self.players[0])
 
         # make buttons
-        b = Button(self.window, text="Roll Die", padx=2, command=self.present_die_GUI)
-        b.grid(row=3, column=0)
+        b = Button(self.window, text="Roll Die", padx=0, command=self.present_die_GUI)
+        b.grid(row=2, column=41)
 
         b = Button(self.window, text="Clockwise", padx=2, command=self.set_start_direction_fwd)
-        b.grid(row=4, column=1)
+        b.grid(row=3, column=41)
         b = Button(self.window, text="Counter-clockwise", padx=2, command=self.set_start_direction_rev)
-        b.grid(row=4, column=0)
+        b.grid(row=3, column=42)
 
         b = Button(self.window, text="See Answer", padx=2, command=self.display_answer)
-        b.grid(row=5, column=0)
+        b.grid(row=4, column=41)
 
         b = Button(self.window, text="Correct", padx=2, command=self.answered_correct)
-        b.grid(row=6, column=0)
+        b.grid(row=5, column=41)
         b = Button(self.window, text="Incorrect", padx=2, command=self.answered_incorrect)
-        b.grid(row=6, column=1)
+        b.grid(row=5, column=42)
 
 
         # update label
@@ -321,6 +321,10 @@ class GameBoard:
 
     def draw_movers(self, players, pixel_to_position_scaling_factor: float,
                    pixel_to_position_offset: tuple ):
+
+        self.canvas.create_image(self.win_x / 2, self.win_y / 2, image=self.photoImage)
+        self.canvas.grid()
+
         for player in players:
             self.draw_mover(player,
                    pixel_to_position_scaling_factor,
