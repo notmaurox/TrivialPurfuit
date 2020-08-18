@@ -75,7 +75,7 @@ class GameBoard:
 
         # Draw board (stationary)
         self.window.title("Trivial Purfuit")
-        self.window.configure(background='black')
+        self.window.configure(background='white')
         self.canvas = Canvas(self.window, width=self.win_x, height=self.win_y)
 
         self.canvas.create_image(self.win_x / 2, self.win_y / 2, image=self.photoImage)
@@ -83,7 +83,7 @@ class GameBoard:
 
         # make label
         self.label = Label(self.window, text="",)
-        self.label.grid(row=41, column=20)
+        self.label.grid(row=1, column=0)
         self.set_current_player(self.players[0])
 
         # make buttons
