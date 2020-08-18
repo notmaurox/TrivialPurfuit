@@ -42,11 +42,13 @@ class ImageLabel(tk.Label):
 #Function to launch and run the file for the question bank
 def questionBank():
     root.destroy() #close existing gui before opening next
+    os.chdir("../question_bank/")
     os.system("python question_driver.py")
 
 #Function to launch and run the file for the game board
 def openGame():
     root.destroy() #close existing gui before opening next
+    os.chdir("../gameplay/")
     os.system("python game_board.py")
 
 #Test GUI for functionality to show gif

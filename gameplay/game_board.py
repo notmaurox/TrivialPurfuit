@@ -8,7 +8,6 @@ from game_position import GamePositions
 import logging
 import sys
 import random
-from game_board_gui import GameBoardGUI
 
 from PIL import Image as im, ImageTk
 from tkinter import Tk, Label, Canvas, Button, IntVar
