@@ -90,21 +90,21 @@ class GameBoard:
         self.set_current_player(self.players[0])
 
         # make buttons
-        b = Button(self.window, text="Roll Die", padx=2, command=self.present_die_GUI)
+        b = Button(self.window, text="Roll Die", command=self.present_die_GUI)
         b.grid(row=3, column=0)
 
-        b = Button(self.window, text="Clockwise", padx=2, command=self.set_start_direction_fwd)
-        b.grid(row=4, column=1)
-        b = Button(self.window, text="Counter-clockwise", padx=2, command=self.set_start_direction_rev)
-        b.grid(row=4, column=0)
+        b = Button(self.window, text="Clockwise", command=self.set_start_direction_fwd)
+        b.grid(row=4, column=0, sticky='E')
+        b = Button(self.window, text="Counter-clockwise", command=self.set_start_direction_rev)
+        b.grid(row=4, column=0, sticky='W')
 
-        b = Button(self.window, text="See Answer", padx=2, command=self.display_answer)
+        b = Button(self.window, text="See Answer", command=self.display_answer)
         b.grid(row=5, column=0)
 
-        b = Button(self.window, text="Correct", padx=2, command=self.answered_correct)
-        b.grid(row=6, column=0)
-        b = Button(self.window, text="Incorrect", padx=2, command=self.answered_incorrect)
-        b.grid(row=6, column=1)
+        b = Button(self.window, text="Correct", command=self.answered_correct)
+        b.grid(row=6, column=0, sticky='E')
+        b = Button(self.window, text="Incorrect", command=self.answered_incorrect)
+        b.grid(row=6, column=0, sticky='W')
 
 
         # update label
@@ -118,7 +118,11 @@ class GameBoard:
 
     def answered_correct(self):
         if (self.new_x_pos, self.new_y_pos) in self.game_positions.get_headquarter_positions():
-            is_full = self.current_player.add_wedge(type)
+            board_type = self.game_positions.get_position_type(
+                self.new_x_pos, self.new_y_pos
+            )
+            real_type = GAME_POSITION_TYPE_MAP[board_type]
+            is_full = self.current_player.add_wedge(real_type)
             if is_full:
                 self.report_end_of_game()  # should be a conditional
         self.set_label_text(self.current_player.mover_color + ' player can roll again.')
@@ -143,7 +147,9 @@ class GameBoard:
             self.current_player.get_pos()[0],
             self.current_player.get_pos()[1],
             self.die.last_roll,
-            self.players)
+            self.players,
+            self.window,
+        )
 
         self.current_player.update_pos(self.new_x_pos, self.new_y_pos)
         self.draw_movers(self.players,
@@ -251,7 +257,9 @@ class GameBoard:
                 answered_correct = self.display_answer(card)
                 ### break button function here
                 if (new_x_pos, new_y_pos) in self.game_positions.get_headquarter_positions():
-                    is_full = self.current_player.add_wedge(type)
+                    board_type = self.game_positions.get_position_type(new_x_pos, new_y_pos)
+                    real_type = GAME_POSITION_TYPE_MAP[board_type]
+                    is_full = self.current_player.add_wedge(real_type)
                     if is_full:
                         self.report_end_of_game()  # should be a conditional
 
