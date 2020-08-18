@@ -39,25 +39,33 @@ class ImageLabel(tk.Label):
             self.config(image=self.frames[self.loc])
             self.after(self.delay, self.next_frame)
 
+#Function to launch and run the file for the question bank
 def questionBank():
+    root.destroy() #close existing gui before opening next
     os.system("python question_driver.py")
 
-def openGame(self):
-    self.os.system("python game_board_test.py")
+#Function to launch and run the file for the game board
+def openGame():
+    root.destroy() #close existing gui before opening next
+    os.system("python game_board_test.py")
 
+#Test GUI for functionality to show gif
 root = tk.Tk()
-lbl = ImageLabel(root)
+root.title("Welcome to Trivial Purfuit!") #set title of window
+lbl = ImageLabel(root) #create image label in the gui window
 __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 lbl.pack()
-lbl.load('trivialpurfuit.gif')
+lbl.load('trivialpurfuit.gif') #load gif into gui window
 
-view_button = tk.Button(root)
-view_button.config(text="Question Bank", command=questionBank)
-view_button.pack()
+#Create a button that links to method for running question bank
+bank_button = tk.Button(root)
+bank_button.config(text="Launch the Question Bank", command=questionBank)
+bank_button.pack(side="left")
 
-#clear_button = tk.Button(root)
-#clear_button.config(text="Game Board", command=openGame)
-#clear_button.grid(row=10)
+#Create a button that links to method for running game board
+game_button = tk.Button(root)
+game_button.config(text="Launch the Game Board", command=openGame)
+game_button.pack(side="right")
 
-
+#run mainloop to launch gui
 root.mainloop()
