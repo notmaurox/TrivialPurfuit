@@ -1,6 +1,4 @@
 from dice import Die
-#from players import Players
-#from card_deck import CardDecks
 from mover import Mover
 from card_deck import CardDeck
 from card import Card
@@ -160,12 +158,15 @@ class GameBoard:
             i = random.randint(0, n)
             type = colors[i]
 
-        if type != 'roll_again':
+        elif type != 'roll_again':
             self.card = self.draw_card_by_type(type)
             # card = self.MINIMAL_INCREMENT_draw_card_by_type(type)
             self.game_positions.render(self.players)
             self.display_question(self.card)
             ## break this method here, following code goes to new button
+
+        else:
+            self.set_label_text("Roll again.")
         '''
 
 
@@ -218,7 +219,8 @@ class GameBoard:
         return value
 
 
-    def take_turn(self, current_player: Mover):
+    def take_turn(self, current_player: Mover):  # REMOVE THIS METHOD
+        print("Entered method 'take_turn', and we should NOT be using this method!")
         self.set_current_player(current_player)
         type = 'roll_again'
         answered_correct = False
@@ -271,7 +273,7 @@ class GameBoard:
 
     def report_end_of_turn(self):
         self.set_label_text(self.current_player.name + ", your turn is now over.  Press Enter to finish.")
-        input(self.current_player.name + ", your turn is now over.  Press Enter to finish.")
+        #input(self.current_player.name + ", your turn is now over.  Press Enter to finish.")
 
     def report_end_of_game(self, winner):
         input(winner + " has won the game!  Press Enter to finish.")
@@ -329,7 +331,6 @@ class GameBoard:
             self.draw_mover(player,
                    pixel_to_position_scaling_factor,
                    pixel_to_position_offset)
-        #self.window.update()
 
 
     def draw_mover(self, mover,
