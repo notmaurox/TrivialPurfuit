@@ -197,6 +197,7 @@ class GameBoard:
     def main_gameplay_loop(self):
         while True:
             for player in self.players:
+                print(player)
                 # I think this should be where the gui is incorporated
                 self.take_turn(player)
                 self.game_positions.render(self.players)
@@ -278,8 +279,8 @@ class GameBoard:
         #input("Press Enter to see the answer.")
 
     def report_end_of_turn(self):
-        self.set_label_text(self.current_player.name + ", your turn is now over.  Press Enter to finish.")
-        input(self.current_player.name + ", your turn is now over.  Press Enter to finish.")
+        self.set_label_text(self.current_player.name + ", your turn is now over. Press OK to start next turn")
+        #input(self.current_player.name + ", your turn is now over.  Press Enter to finish.")
 
     def report_end_of_game(self, winner):
         input(winner + " has won the game!  Press Enter to finish.")
@@ -329,6 +330,11 @@ class GameBoard:
 
     def draw_movers(self, players, pixel_to_position_scaling_factor: float,
                    pixel_to_position_offset: tuple ):
+        # Delete previously drawn shapes except for the gameboard because
+        # they will be redrawn
+        for identifier in self.canvas.find_all():
+            if identifier > 1:
+                self.canvas.delete(identifier)
         for player in players:
             self.draw_mover(player,
                    pixel_to_position_scaling_factor,
