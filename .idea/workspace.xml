@@ -3,14 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ec97b675-890c-470f-807c-95cea7637068" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gameplay/card.py" beforeDir="false" afterPath="$PROJECT_DIR$/gameplay/card.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gameplay/game_board.py" beforeDir="false" afterPath="$PROJECT_DIR$/gameplay/game_board.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gameplay/question_driver.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gameplay/questions2.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gameplay/trivial_purfuit_menu.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gameplay/trivialpurfuit.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/question_bank/loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/question_bank/loader.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/question_bank/question_driver.py" beforeDir="false" afterPath="$PROJECT_DIR$/question_bank/question_driver.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

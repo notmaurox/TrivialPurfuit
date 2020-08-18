@@ -79,7 +79,7 @@ class GameBoard:
         self.canvas = Canvas(self.window, width=self.win_x, height=self.win_y)
 
         self.canvas.create_image(self.win_x / 2, self.win_y / 2, image=self.photoImage)
-        self.canvas.grid(row=0, column=0, rowspan=40, columnspan=40)
+        self.canvas.grid()
 
         # make label
         self.label = Label(self.window, text="",)
