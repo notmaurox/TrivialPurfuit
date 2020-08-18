@@ -47,7 +47,7 @@ def questionBank():
 #Function to launch and run the file for the game board
 def openGame():
     root.destroy() #close existing gui before opening next
-    os.system("python game_board_test.py")
+    os.system("python game_board.py")
 
 #Test GUI for functionality to show gif
 root = tk.Tk()
