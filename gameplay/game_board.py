@@ -39,7 +39,9 @@ class GameBoard:
         self.game_positions = GamePositions()
 
         self.players = []
+        self.player_num = 0
         self.current_player = None # It might be useful to have this property to easily access the player whose turn it is
+        self.next_player = None
         self.direction = ""  # The direction the player has chosen to move (not yet sure what values this can take)
 
         self.pixel_to_position_scaling_factor = 75  # Multiple a game_position location (in matrix) by this number to get the pixel location equivalent
@@ -56,23 +58,15 @@ class GameBoard:
                 )
             )
 
-        #self.GUI = GameBoardGUI()
-        #self.GUI.render(
-        #           self,
-        #           self.players,
-        #           self.pixel_to_position_scaling_factor,
-        #           self.pixel_to_position_offset
-        #           )
-
-
     def main_gameplay_loop_GUI(self):
         
-        for i in range(0,4):
-            self.players[i].add_wedge("green")
-            self.players[i].add_wedge("red")
-            self.players[i].add_wedge("white")
-            self.players[i].add_wedge("blue")
-            
+        # uncomment to start a game with a full mover
+        # self.players[0].add_wedge('red')
+        # self.players[0].add_wedge('blue')
+        # self.players[0].add_wedge('white')
+        # self.players[0].add_wedge('green')
+        
+        
         self.win_x = 829
         self.win_y = 830
         self.window = Tk()
@@ -91,7 +85,7 @@ class GameBoard:
         # make label
         self.label = Label(self.window, text="",)
         self.label.grid(row=1, column=0)
-        self.set_current_player(self.players[0])
+        self.set_current_player(self.players[self.player_num])
 
         # make buttons
         b = Button(self.window, text="Roll Die", command=self.present_die_GUI)
@@ -112,7 +106,7 @@ class GameBoard:
 
 
         # update label
-        self.set_label_text(self.current_player.mover_color + " player's turn. Roll the die and select a direction to move!")
+        self.set_label_text(self.current_player.name + " player's turn. Roll the die and select a direction to move!")
         # Draw movers
         self.draw_movers(self.players,
                          self.pixel_to_position_scaling_factor,
@@ -121,21 +115,30 @@ class GameBoard:
         self.window.mainloop()  # not sure where this lives.  Here?
 
     def answered_correct(self):
+        # If on a headquarters
         if (self.new_x_pos, self.new_y_pos) in self.game_positions.get_headquarter_positions():
             board_type = self.game_positions.get_position_type(
                 self.new_x_pos, self.new_y_pos
             )
             real_type = GAME_POSITION_TYPE_MAP[board_type]
             is_full = self.current_player.add_wedge(real_type)
-            if is_full:
-                self.report_end_of_game()  # should be a conditional
-        self.set_label_text(self.current_player.mover_color + ' player can roll again.')
+        # If in center 
+        if all([
+            self.current_player.is_full(),
+            self.new_x_pos == self.game_positions.center_index,
+            self.new_y_pos == self.game_positions.center_index
+        ]):
+            self.report_end_of_game(self.current_player.name)
+            self.window.wait_window()
+        self.set_label_text(self.current_player.name + ' player can roll again.')
         self.draw_movers(self.players,
                          self.pixel_to_position_scaling_factor,
                          self.pixel_to_position_offset)
 
     def answered_incorrect(self):
         self.report_end_of_turn()
+        self.player_num = (self.player_num + 1) % 3
+        self.set_current_player(self.players[self.player_num])
 
     def set_start_direction_fwd(self):
         print('Player will move clockwise')
@@ -166,14 +169,14 @@ class GameBoard:
         gp_type = self.game_positions.get_position_type(self.new_x_pos, self.new_y_pos)
         # Mapp 4 character game_positions to game_board position type
         type = GAME_POSITION_TYPE_MAP[gp_type]
-        print(type)
+        # If in the center, decide random type
         if type == 'center':
             colors = ['red', 'white', 'blue', 'green']
             n = len(colors) - 1
             i = random.randint(0, n)
             type = colors[i]
 
-        elif type != 'roll_again':
+        if type != 'roll_again':
             self.card = self.draw_card_by_type(type)
             # card = self.MINIMAL_INCREMENT_draw_card_by_type(type)
             self.game_positions.render(self.players)
@@ -182,21 +185,6 @@ class GameBoard:
 
         else:
             self.set_label_text("Roll again.")
-        '''
-
-
-            self.ask_user_answer()
-            answered_correct = self.display_answer(card)
-            if (new_x_pos, new_y_pos) in self.game_positions.get_headquarter_positions():
-                is_full = self.current_player.add_wedge(type)
-                if is_full:
-                    self.report_end_of_game()  # should be a conditional
-
-        self.report_end_of_turn()
-        '''
-
-
-
 
 
     def set_label_text(self, text):
@@ -271,8 +259,13 @@ class GameBoard:
                     board_type = self.game_positions.get_position_type(new_x_pos, new_y_pos)
                     real_type = GAME_POSITION_TYPE_MAP[board_type]
                     is_full = self.current_player.add_wedge(real_type)
-                    if is_full:
-                        self.report_end_of_game()  # should be a conditional
+            # If in center 
+            if all([
+                self.current_player.is_full(),
+                self.new_x_pos == self.game_positions.center_index,
+                self.new_y_pos == self.game_positions.center_index
+            ]):
+                self.report_end_of_game(self.current_player.name)
 
         self.report_end_of_turn()
         return
@@ -289,11 +282,12 @@ class GameBoard:
         #input("Press Enter to see the answer.")
 
     def report_end_of_turn(self):
-        self.set_label_text(self.current_player.name + ", your turn is now over.  Press Enter to finish.")
+        self.set_label_text(self.current_player.name + ", your turn is now over.")
         #input(self.current_player.name + ", your turn is now over.  Press Enter to finish.")
 
     def report_end_of_game(self, winner):
-        input(winner + " has won the game!  Press Enter to finish.")
+        text = "CONGRATULATIONS! " + winner + " has won the game!"
+        self.set_label_text(text)
         self.end_game()  # this call might better live outside of this method, like in the calling method (presumably the main gameplay loop)
 
     def display_answer(self):
@@ -301,15 +295,6 @@ class GameBoard:
         print("Answer:", self.card.answer)
         self.set_label_text("Answer: " + self.card.answer + " \n Did the player answer the question correctly? Press either 'correct' or 'incorrect'")
 
-        '''
-        val = input("Did " + self.current_player.name + " answer the question correctly? [y/n]\n")
-        while val not in ['y', 'n']:
-            val = input("Did " + self.current_player.name + " answer the question correctly? [y/n]\n")
-        if val == 'y':
-            return True
-        if val == 'n':
-            return False
-        '''
 
     def set_current_player(self, player):
         self.set_label_text('It is '+player.name+'\'s turn!')
@@ -396,7 +381,7 @@ class GameBoard:
 
 
 if __name__ == "__main__":
-    gb = GameBoard(4, ['r', 'w', 'g', 'b'])
+    gb = GameBoard(4, ['Red', 'White', 'Green', 'Blue'])
     #gb.main_gameplay_loop()
     gb.main_gameplay_loop_GUI()
 

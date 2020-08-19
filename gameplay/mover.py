@@ -43,7 +43,14 @@ class Mover:
         
     def get_pos(self):
         return self.curr_x_pos, self.curr_y_pos
-
+        
+    def is_full(self):
+        expected_wedges = ["red", "blue", "white", "green"]
+        for wedge in expected_wedges:
+            if wedge not in self.wedges:
+                return False
+        return True
+                
     def add_wedge(self, color):
         LOG.info("Call to mover.add_wedge")
         LOG.info("Adding wedge")
