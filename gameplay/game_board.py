@@ -66,6 +66,7 @@ class GameBoard:
 
 
     def main_gameplay_loop_GUI(self):
+            
         self.win_x = 829
         self.win_y = 830
         self.window = Tk()
@@ -359,7 +360,7 @@ class GameBoard:
         for wedge in mover.wedges:
             if wedge == "red":
                 start = 0
-            elif wedge == "yellow":
+            elif wedge == "white":
                 start = 90
             elif wedge == "green":
                 start = 180
@@ -367,10 +368,10 @@ class GameBoard:
                 start = 270
 
             self.canvas.create_arc(
-                pixel_to_position_offset[0] + mover.curr_x_pos * pixel_to_position_scaling_factor,
-                self.win_y - (pixel_to_position_offset[1] + mover.curr_y_pos * pixel_to_position_scaling_factor),
-                pixel_to_position_offset[0] + mover.curr_x_pos * pixel_to_position_scaling_factor + mover_size,
-                self.win_y - (pixel_to_position_offset[1] + mover.curr_y_pos * pixel_to_position_scaling_factor + mover_size),
+                pixel_to_position_offset[0] + mover.mover_offset_x + mover.curr_x_pos * pixel_to_position_scaling_factor,
+                self.win_y - (pixel_to_position_offset[1] + mover.mover_offset_y  + mover.curr_y_pos * pixel_to_position_scaling_factor),
+                pixel_to_position_offset[0] + mover.mover_offset_x  + mover.curr_x_pos * pixel_to_position_scaling_factor + mover_size,
+                self.win_y - (pixel_to_position_offset[1] + mover.mover_offset_y + mover.curr_y_pos * pixel_to_position_scaling_factor + mover_size),
                 start=start,
                 extent=90,
                 outline=mover.mover_color,
@@ -386,3 +387,4 @@ if __name__ == "__main__":
     gb = GameBoard(4, ['r', 'w', 'g', 'b'])
     #gb.main_gameplay_loop()
     gb.main_gameplay_loop_GUI()
+
