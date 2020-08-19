@@ -137,7 +137,7 @@ class GameBoard:
 
     def answered_incorrect(self):
         self.report_end_of_turn()
-        self.player_num = (self.player_num + 1) % 3
+        self.player_num = (self.player_num + 1) % 4
         self.set_current_player(self.players[self.player_num])
 
     def set_start_direction_fwd(self):
@@ -293,7 +293,7 @@ class GameBoard:
     def display_answer(self):
 
         print("Answer:", self.card.answer)
-        self.set_label_text("Answer: " + self.card.answer + " \n Did the player answer the question correctly? Press either 'correct' or 'incorrect'")
+        self.set_label_text("Answer: " + self.card.answer + " \n Did the player answer the question correctly? Press either 'Correct' or 'Incorrect'")
 
 
     def set_current_player(self, player):
@@ -381,7 +381,7 @@ class GameBoard:
 
 
 if __name__ == "__main__":
-    gb = GameBoard(4, ['Red', 'White', 'Green', 'Blue'])
+    gb = GameBoard(4, ['Red', 'White', 'Blue', 'Green'])
     #gb.main_gameplay_loop()
     gb.main_gameplay_loop_GUI()
 
