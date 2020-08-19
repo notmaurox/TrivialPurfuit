@@ -53,8 +53,8 @@ class GameBoard:
                 Mover(
                     name=player_names[player_num],
                     mover_color=colors[player_num],
-                    start_pos_x=0,
-                    start_pos_y=0
+                    start_pos_x=self.game_positions.center_index,
+                    start_pos_y=self.game_positions.center_index
                 )
             )
 
