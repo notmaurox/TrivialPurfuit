@@ -66,6 +66,12 @@ class GameBoard:
 
 
     def main_gameplay_loop_GUI(self):
+        
+        for i in range(0,4):
+            self.players[i].add_wedge("green")
+            self.players[i].add_wedge("red")
+            self.players[i].add_wedge("white")
+            self.players[i].add_wedge("blue")
             
         self.win_x = 829
         self.win_y = 830
@@ -351,36 +357,39 @@ class GameBoard:
 
         mover_size = 33
 
-        self.canvas.create_oval(
-                pixel_to_position_offset[0] + mover.mover_offset_x + mover.curr_x_pos * pixel_to_position_scaling_factor,
-                self.win_y - (pixel_to_position_offset[1] + mover.mover_offset_y  + mover.curr_y_pos * pixel_to_position_scaling_factor),
-                pixel_to_position_offset[0] + mover.mover_offset_x  + mover.curr_x_pos * pixel_to_position_scaling_factor + mover_size,
-                self.win_y - (pixel_to_position_offset[1] + mover.mover_offset_y + mover.curr_y_pos * pixel_to_position_scaling_factor + mover_size),
-                outline=mover.mover_color,
-                fill='grey',
-                width=2)
+        self.canvas.create_rectangle(
+            pixel_to_position_offset[0] + mover.mover_offset_x + mover.curr_x_pos * pixel_to_position_scaling_factor,
+            self.win_y - (pixel_to_position_offset[1] + mover.mover_offset_y  + mover.curr_y_pos * pixel_to_position_scaling_factor),
+            pixel_to_position_offset[0] + mover.mover_offset_x  + mover.curr_x_pos * pixel_to_position_scaling_factor + mover_size,
+            self.win_y - (pixel_to_position_offset[1] + mover.mover_offset_y + mover.curr_y_pos * pixel_to_position_scaling_factor + mover_size),
+            outline=mover.mover_color,
+            fill='grey',
+            width=2
+        )
 
         for wedge in mover.wedges:
             if wedge == "red":
-                start = 0
+                x_adjust = 0
+                y_adjust = 0
             elif wedge == "white":
-                start = 90
+                x_adjust = (mover_size/2)
+                y_adjust = 0
             elif wedge == "green":
-                start = 180
+                x_adjust = (mover_size/2)
+                y_adjust = -(mover_size/2)
             elif wedge == "blue":
-                start = 270
+                x_adjust = 0
+                y_adjust = -(mover_size/2)
 
-            self.canvas.create_arc(
-                pixel_to_position_offset[0] + mover.mover_offset_x + mover.curr_x_pos * pixel_to_position_scaling_factor,
-                self.win_y - (pixel_to_position_offset[1] + mover.mover_offset_y  + mover.curr_y_pos * pixel_to_position_scaling_factor),
-                pixel_to_position_offset[0] + mover.mover_offset_x  + mover.curr_x_pos * pixel_to_position_scaling_factor + mover_size,
-                self.win_y - (pixel_to_position_offset[1] + mover.mover_offset_y + mover.curr_y_pos * pixel_to_position_scaling_factor + mover_size),
-                start=start,
-                extent=90,
+            self.canvas.create_rectangle(
+                pixel_to_position_offset[0] + mover.mover_offset_x + mover.curr_x_pos * pixel_to_position_scaling_factor + x_adjust,
+                self.win_y - (pixel_to_position_offset[1] + mover.mover_offset_y  + mover.curr_y_pos * pixel_to_position_scaling_factor) + y_adjust,
+                pixel_to_position_offset[0] + mover.mover_offset_x  + mover.curr_x_pos * pixel_to_position_scaling_factor + (mover_size/2) + x_adjust,
+                self.win_y - (pixel_to_position_offset[1] + mover.mover_offset_y + mover.curr_y_pos * pixel_to_position_scaling_factor + (mover_size/2)) + y_adjust,
                 outline=mover.mover_color,
                 fill=wedge,
-                width=2)
-
+                width=2
+            )
 
 
 
