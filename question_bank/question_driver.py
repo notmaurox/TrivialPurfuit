@@ -71,6 +71,7 @@ class QuestionBank:
     #Method to launch and run game_board file
     def openGame(self):
         root.destroy() #close existing gui before launching new one
+        os.chdir("../gameplay/")
         os.system("python game_board.py")
 
     #Method to save new questions to file
