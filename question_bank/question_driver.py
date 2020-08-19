@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
+from tkinter.scrolledtext import *
 import tkinter as tk
 import os.path
 
@@ -98,8 +99,33 @@ class QuestionBank:
     #Method to open .txt and display in separate frame in GUI window
     def openFile(self):
         with open("questions2.txt", "r") as f:
-            self.question_label = tk.Label(self.question_frame, text=f.read(), anchor='w')
-            self.question_label.grid(row=15, sticky='w')
+            row = 11
+            text = ""
+            
+            
+            TextBox = ScrolledText(self.question_frame, height='100', width='150', wrap=WORD)
+
+            for line in f:
+                label, question, answer, *_ = line.split('\t')
+                text = "Q: " + question + "\n" + "A: " + answer + "\n\n"
+                
+                TextBox.insert(END, text)
+
+                #Pushes the scrollbar and focus of text to the end of the text input.
+                TextBox.yview(END)
+                
+            TextBox.pack()
+            
+                # self.question_label = tk.Label(
+                #     self.question_frame, text=question, anchor='w'
+                # )
+                # self.question_label.grid(row=row, column=0, sticky='w')
+                # row += 1
+                # self.answer_label = tk.Label(
+                #     self.question_frame, text=answer, anchor='w'
+                # )
+                # self.answer_label.grid(row=row, column=0, sticky='w')
+                # row += 1
 
     #Method to clear the grid displaying questions and reset the gui
     def clearQuestions(self):

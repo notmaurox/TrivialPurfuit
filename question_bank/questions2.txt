@@ -13,6 +13,24 @@ Independence Day	The tradition of fireworks actually comes from the first Indepe
 Independence Day	What day in 1776 did the Continental Congress officially declare freedom from Britain? (HINT: It is not July 4)	July 2
 Independence Day	Who is the only US president to have been born on Independence Day?	Calvin Coolidge
 Independence Day	On the Centennial celebration of July 4, 1876, how many states were there in the Union?	37
+Independence Day	When was the first official Independence Day celebrated? (Please enter in MM/DD/YYYY)	07/04/1777
+Independence Day	What was the first state to make Independence Day a state holiday?	Massachusetts
+Independence Day	The tradition of fireworks actually comes from the first Independence Day celebration in what city?	Philadelphia
+Independence Day	What day in 1776 did the Continental Congress officially declare freedom from Britain? (HINT: It is not July 4)	July 2
+Independence Day	Who is the only US president to have been born on Independence Day?	Calvin Coolidge
+Independence Day	On the Centennial celebration of July 4, 1876, how many states were there in the Union?	37
+Independence Day	When was the first official Independence Day celebrated? (Please enter in MM/DD/YYYY)	07/04/1777
+Independence Day	What was the first state to make Independence Day a state holiday?	Massachusetts
+Independence Day	The tradition of fireworks actually comes from the first Independence Day celebration in what city?	Philadelphia
+Independence Day	What day in 1776 did the Continental Congress officially declare freedom from Britain? (HINT: It is not July 4)	July 2
+Independence Day	Who is the only US president to have been born on Independence Day?	Calvin Coolidge
+Independence Day	On the Centennial celebration of July 4, 1876, how many states were there in the Union?	37
+Independence Day	When was the first official Independence Day celebrated? (Please enter in MM/DD/YYYY)	07/04/1777
+Independence Day	What was the first state to make Independence Day a state holiday?	Massachusetts
+Independence Day	The tradition of fireworks actually comes from the first Independence Day celebration in what city?	Philadelphia
+Independence Day	What day in 1776 did the Continental Congress officially declare freedom from Britain? (HINT: It is not July 4)	July 2
+Independence Day	Who is the only US president to have been born on Independence Day?	Calvin Coolidge
+Independence Day	On the Centennial celebration of July 4, 1876, how many states were there in the Union?	37
 People	Who was the first signer of the Declaration of Independence?	John Hancock
 People	Who physically wrote the Declaration of Independence?	Thomas Jefferson
 People	Who was the oldest person to sign the Declaration of Independence?	Benjamin Franklin
@@ -32,7 +50,7 @@ Places	This colony had the largest number of signers - 9.	Pennsylvania
 Places	In what colony did riots break out when George Washington read the Declaration in public on July 9, 1776?	New York
 Places	Roger Sherman, who also later signed the Articles of Confederation and the Constitution, was from which colony?	Connecticut
 Independence Day	This is a test question	This is a test answer	
-Events	Who did that thing	Me	
-People	Who	Him	
-People	test1	test1	
-Places	afdad	agafdg	
+Events	Who did that thing	Me
+People	Who	Him
+People	test1	test1
+Places	afdad	agafdg
