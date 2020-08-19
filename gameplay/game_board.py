@@ -67,11 +67,12 @@ class GameBoard:
         # self.players[0].add_wedge('green')
         
         
-        self.win_x = 829
+        self.win_x = 830
         self.win_y = 830
         self.window = Tk()
 
-        self.load = im.open('NewGameBoard.jpg')
+        self.load = im.open('NewestGameBoard.jpg')
+        self.load = self.load.resize((830, 830), im.ANTIALIAS)
         self.photoImage = ImageTk.PhotoImage(self.load)
 
         # Draw board (stationary)
