@@ -29,19 +29,19 @@ class GamePositions:
     
     def _initialize_default_board(self):
         red_pos = [
-            (0,5), (0,10), (8,10), (10,6), (10, 4), (8, 0), #outer positions
+            (0,5), (0, 1), (0, 7), (0,10), (8,10), (10,6), (10, 4), (8, 0), #outer positions
             (4,5), (9,5), (5,3), (5,8) #inner positions
         ]
         blue_pos = [
-            (5,0), (0,8), (6,10), (4,10), (10,8), (0,0), #outer positions
+            (5,0), (0,8), (10, 3), (3, 0), (6,10), (4,10), (10,8), (0,0), #outer positions
             (2,5), (7,5), (5,9), (5,4) #inner positions
         ]
         white_pos = [
-            (10,5), (2,0), (0,4), (0,6), (2,10), (10,0), #outer positions
+            (10,5), (7, 10), (10, 9), (2,0), (0,4), (0,6), (2,10), (10,0), #outer positions
             (1,5), (6,5), (5,7), (5,2) #inner positions
         ]
         green_pos = [
-            (5, 10), (10,10), (10,2), (6,0), (4,0), (0,2), #outer positions
+            (5, 10), (1, 10), (10,10), (9, 0), (10,2), (6,0), (4,0), (0,2), #outer positions
             (3,5), (8,5), (5,1), (5,6) #inner positions
         ]
         colored_positions = [

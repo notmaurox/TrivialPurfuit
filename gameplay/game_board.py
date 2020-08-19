@@ -71,7 +71,7 @@ class GameBoard:
         self.win_y = 830
         self.window = Tk()
 
-        self.load = im.open('game_board.jpg')
+        self.load = im.open('NewGameBoard.jpg')
         self.photoImage = ImageTk.PhotoImage(self.load)
 
         # Draw board (stationary)
