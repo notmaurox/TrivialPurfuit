@@ -124,6 +124,9 @@ class GameBoard:
             if is_full:
                 self.report_end_of_game()  # should be a conditional
         self.set_label_text(self.current_player.mover_color + ' player can roll again.')
+        self.draw_movers(self.players,
+                         self.pixel_to_position_scaling_factor,
+                         self.pixel_to_position_offset)
 
     def answered_incorrect(self):
         self.report_end_of_turn()
