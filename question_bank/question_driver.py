@@ -9,7 +9,7 @@ class QuestionBank:
     def __init__(self, master):
         self.master = master
         master.title("Question Bank")
-        master.geometry("1100x900")
+        master.geometry("1100x820")
 
         #Create a file menu that will be used for program navigation
         self.menubar = tk.Menu(master)
@@ -103,7 +103,7 @@ class QuestionBank:
             text = ""
             
             
-            TextBox = ScrolledText(self.question_frame, height='100', width='150', wrap=WORD)
+            TextBox = ScrolledText(self.question_frame, height='40', width='150', wrap=WORD)
 
             for line in f:
                 label, question, answer, *_ = line.split('\t')
