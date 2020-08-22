@@ -1,0 +1,56 @@
+Category	Question	Answer
+Events	Voting on and signing for independence was incredibly risky as it would have been considered an act of what against the British Crown?	Treason
+Events	During which war did the United States hide the original Declaration of Independence for protection?	World War II
+Events	What date in 1776 was the Declaration of Independence signed on?	August 2
+Events	What is the first word of the text of the Declaration of Independence?	When
+Events	Which American legislative body created the Declaration of Independence?	Second Continental Congress
+Events	How many copies were printed on July 5, 1776?	200
+Events	On which date in 1776 did New York finally agree to vote on independence?	July 9
+Events	What 2015 3-night miniseries on the History channel depicted events leading to the signing of the Declaration of Independence?	Sons of Liberty
+Independence Day	When was the first official Independence Day celebrated? (Please enter in MM/DD/YYYY)	07/04/1777
+Independence Day	What was the first state to make Independence Day a state holiday?	Massachusetts
+Independence Day	The tradition of fireworks actually comes from the first Independence Day celebration in what city?	Philadelphia
+Independence Day	What day in 1776 did the Continental Congress officially declare freedom from Britain? (HINT: It is not July 4)	July 2
+Independence Day	Who is the only US president to have been born on Independence Day?	Calvin Coolidge
+Independence Day	On the Centennial celebration of July 4, 1876, how many states were there in the Union?	37
+Independence Day	When was the first official Independence Day celebrated? (Please enter in MM/DD/YYYY)	07/04/1777
+Independence Day	What was the first state to make Independence Day a state holiday?	Massachusetts
+Independence Day	The tradition of fireworks actually comes from the first Independence Day celebration in what city?	Philadelphia
+Independence Day	What day in 1776 did the Continental Congress officially declare freedom from Britain? (HINT: It is not July 4)	July 2
+Independence Day	Who is the only US president to have been born on Independence Day?	Calvin Coolidge
+Independence Day	On the Centennial celebration of July 4, 1876, how many states were there in the Union?	37
+Independence Day	When was the first official Independence Day celebrated? (Please enter in MM/DD/YYYY)	07/04/1777
+Independence Day	What was the first state to make Independence Day a state holiday?	Massachusetts
+Independence Day	The tradition of fireworks actually comes from the first Independence Day celebration in what city?	Philadelphia
+Independence Day	What day in 1776 did the Continental Congress officially declare freedom from Britain? (HINT: It is not July 4)	July 2
+Independence Day	Who is the only US president to have been born on Independence Day?	Calvin Coolidge
+Independence Day	On the Centennial celebration of July 4, 1876, how many states were there in the Union?	37
+Independence Day	When was the first official Independence Day celebrated? (Please enter in MM/DD/YYYY)	07/04/1777
+Independence Day	What was the first state to make Independence Day a state holiday?	Massachusetts
+Independence Day	The tradition of fireworks actually comes from the first Independence Day celebration in what city?	Philadelphia
+Independence Day	What day in 1776 did the Continental Congress officially declare freedom from Britain? (HINT: It is not July 4)	July 2
+Independence Day	Who is the only US president to have been born on Independence Day?	Calvin Coolidge
+Independence Day	On the Centennial celebration of July 4, 1876, how many states were there in the Union?	37
+People	Who was the first signer of the Declaration of Independence?	John Hancock
+People	Who physically wrote the Declaration of Independence?	Thomas Jefferson
+People	Who was the oldest person to sign the Declaration of Independence?	Benjamin Franklin
+People	Who was the last signer of the Declaration of Independence?	Thomas McKean
+People	What was the name of the printer who Congress ordered the original copies from?	John Dunlap
+People	Which New York delegate helped author the Declaration of Independence but was unable to sign?	Robert Livingston
+People	Which representative made the motion: 'That these United Colonies are, and of right out to be, free and independent States, that they are absolved from all allegiance to the British Crown'?	Richard Henry Lee
+People	Which New Jersey signer, who now has a university named after them in the state, was captured and imprisoned by the British very close to his home in Princeton?	Richard Stockton
+Places	What city was the Declaration of Independence signed?	Philadelphia
+Places	Declaration of Independence signers John Adams, Samuel Adams, John Hancock, Robert Treat Paine, and Elbridge Gerry represented what colony?	Massachusetts
+Places	Which European power did the Thirteen Colonies express a desire to break away from?	Great Britain
+Places	This colony had the smallest number of signers - 2.	Rhode Island
+Places	The primary author of the Declaration of Independence was from which colony?	Virginia
+Places	Although today it is called the first state, initially the 3 signers from this colony had to convince the people to support independence.	Delaware
+Places	Who became the first colony to openly declare independence with the Halifax Resolves in April of 1776?	North Carolina
+Places	This colony had the largest number of signers - 9.	Pennsylvania
+Places	In what colony did riots break out when George Washington read the Declaration in public on July 9, 1776?	New York
+Places	Roger Sherman, who also later signed the Articles of Confederation and the Constitution, was from which colony?	Connecticut
+Independence Day	This is a test question	This is a test answer	
+Events	Who did that thing	Me
+People	Who	Him
+People	test1	test1
+Places	afdad	agafdg

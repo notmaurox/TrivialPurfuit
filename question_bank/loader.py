@@ -22,11 +22,11 @@ class QuestionLoader:
 
         questions = []
 
-        with open(os.path.join(self.question_file_path, "questions.txt")) as file:
+        with open(os.path.join(self.question_file_path, "questions2.txt")) as file:
             question_reader = csv.reader(file, delimiter='\t')
             for thisLine in question_reader:
                 if thisLine[0] == self.type:
-                    questions.append(Card(thisLine[0], thisLine[1], thisLine[2], thisLine[5]))
+                    questions.append(Card(thisLine[0], thisLine[1], thisLine[2]))
                     #print(thisLine)
         return questions
 

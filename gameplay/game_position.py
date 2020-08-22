@@ -4,6 +4,8 @@ import copy
 
 from typing import List
 from mover import Mover
+from tkinter import Toplevel, ttk, StringVar
+import tkinter as tk
 
 LOG = logging.getLogger(__name__)
 LOG.setLevel(logging.NOTSET)
@@ -17,6 +19,8 @@ class GamePositions:
         self.center_index = int((side_length-1)/2)
         self.total_perimeter = (side_length*4)-4
         self.max_index = self.side_length-1
+        self.x_pixel_location = 99
+        self.y_pixel_location = 99
         
         # Due do the nature of this matrix, the coordinate system is accessed
         # by using self.matrix[y][x]
@@ -25,19 +29,19 @@ class GamePositions:
     
     def _initialize_default_board(self):
         red_pos = [
-            (0,5), (0,10), (8,10), (10,6), (10, 4), (8, 0), #outer positions
+            (0,5), (0, 1), (0, 7), (0,10), (8,10), (10,6), (10, 4), (8, 0), #outer positions
             (4,5), (9,5), (5,3), (5,8) #inner positions
         ]
         blue_pos = [
-            (5,0), (0,8), (6,10), (4,10), (10,8), (0,0), #outer positions
+            (5,0), (0,8), (10, 3), (3, 0), (6,10), (4,10), (10,8), (0,0), #outer positions
             (2,5), (7,5), (5,9), (5,4) #inner positions
         ]
         white_pos = [
-            (10,5), (2,0), (0,4), (0,6), (2,10), (10,0), #outer positions
+            (10,5), (7, 10), (10, 9), (2,0), (0,4), (0,6), (2,10), (10,0), #outer positions
             (1,5), (6,5), (5,7), (5,2) #inner positions
         ]
         green_pos = [
-            (5, 10), (10,10), (10,2), (6,0), (4,0), (0,2), #outer positions
+            (5, 10), (1, 10), (10,10), (9, 0), (10,2), (6,0), (4,0), (0,2), #outer positions
             (3,5), (8,5), (5,1), (5,6) #inner positions
         ]
         colored_positions = [
@@ -101,9 +105,56 @@ class GamePositions:
         else:
             return None
 
-    def _determine_move_dir(self, pos_x: int, pos_y: int, players, prev_dir=None,
-        ):
+    def _get_command(self, window, text):
+        
+        def up_cmd():
+            global dir
+            dir.set('up')
+            window.destroy()
+        
+        def down_cmd():
+            global dir
+            dir.set('down')
+            window.destroy()
+            
+        def left_cmd():
+            global dir
+            dir.set('left')
+            window.destroy()
+            
+        def right_cmd():
+            global dir
+            dir.set('right')
+            window.destroy()
+                
+        if text == "up":
+            return up_cmd
+        if text == "down":
+            return down_cmd
+        if text == "left":
+            return left_cmd
+        if text == "right":
+            return right_cmd
 
+    def _get_user_dir(self, msg, allowed_dirs, game_window):
+        global dir
+        win = Toplevel()
+        win.wm_title("Select Direction")
+
+        l = tk.Label(win, text=msg)
+        l.grid(row=0, column=0)
+        
+        for i in range(len(allowed_dirs)):
+            text = allowed_dirs[i]
+            b = ttk.Button(win, text=text, command=self._get_command(win, text))
+            b.grid(row=1+i, column=0)
+        game_window.wait_window(win)
+
+    def _determine_move_dir(
+            self, pos_x: int, pos_y: int, players, game_window, prev_dir=None,
+        ):
+        global dir
+        dir = StringVar()
         # If someone is on a join position between perimiter and spoke...
         if (
             pos_x == self.center_index and (pos_y == 0 or pos_y == self.max_index)
@@ -121,52 +172,46 @@ class GamePositions:
                 allowed_dirs.remove('right')
             if pos_y == self.max_index and 'up' in allowed_dirs:
                 allowed_dirs.remove('up')
+                
             dir_str = ", ".join(allowed_dirs)
-            usr_msg = 'Pick direction to move from center ('+dir_str+') : '
-            #self.render(players)
-            dir = input(usr_msg) 
-            while dir not in allowed_dirs:
-                dir = input(usr_msg)
-            return dir
+            usr_msg = 'Pick direction to move from center'
+            self._get_user_dir(usr_msg, allowed_dirs, game_window)
+            return dir.get()
+
         # If someone is in the center, ask which direction to move in
         if pos_x == self.center_index and pos_y == self.center_index:
-            usr_msg = "Pick direction to move from center (up, down, left, right) : "
+            usr_msg = "Pick direction to move from center"
             #self.render(players)
-            dir = input(usr_msg)
-            while dir not in ['up', 'down', 'left', 'right']:
-                dir = input(usr_msg)
-            return dir
+            allowed_dirs = ['up', 'down', 'left', 'right']
+            self._get_user_dir(usr_msg, allowed_dirs, game_window)
+            return dir.get()
         # If someone is on a vertical spoke, move them along spoke in same dir
         if pos_x == self.center_index and (pos_y > 0 and pos_y < self.max_index):
             # if this is their first move, ask dir
             if prev_dir != None:
                 return prev_dir
             else:
-                usr_msg = "Pick direction to move along spoke (up, down) : "
-                #self.render(players)
-                dir = input(usr_msg)
-                while dir not in ['up', 'down']:
-                    dir = input(usr_msg)
-                return dir
+                usr_msg = "Pick direction to move along spoke"
+                allowed_dirs = ['up', 'down']
+                self._get_user_dir(usr_msg, allowed_dirs, game_window)
+                return dir.get()
         # If someone is on a horizonal spoke, move them along spoke in same dir
         if pos_y == self.center_index and (pos_x > 0 and pos_x < self.max_index):
             # if this is their first move, ask dir
             if prev_dir != None:
                 return prev_dir
             else:
-                usr_msg = "Pick direction to move along spoke (left, right) : "
-                #self.render(players)
-                dir = input(usr_msg)
-                while dir not in ['left', 'right']:
-                    dir = input(usr_msg)
-                return dir
+                usr_msg = "Pick direction to move along spoke"
+                allowed_dirs = ['left', 'right']
+                self._get_user_dir(usr_msg, allowed_dirs, game_window)
+                return dir.get()
 
-        if self.start_of_turn:
-            self.start_direction = 0
-            message = "pick direction to move across board (fwd/rev)"
+        #if self.start_of_turn:
+            #self.start_direction = 0
+            #message = "pick direction to move across board (fwd/rev)"
             #self.render(players)
-            while self.start_direction not in ['fwd', 'rev']:
-                self.start_direction = input(message)
+            #while self.start_direction not in ['fwd', 'rev']:
+            #    self.start_direction = input(message)
 
         if self.start_direction == 'fwd':
             if pos_x == 0 and pos_y != (self.max_index):
@@ -196,7 +241,8 @@ class GamePositions:
         start_pos_x: int,
         start_pos_y: int,
         spaces_to_move: int,
-        players
+        players,
+        game_window,
     ):
         # Direction can take form fwd or rev where by default the game GameBoard
         # runs clockwise.
@@ -208,7 +254,7 @@ class GamePositions:
         move_dir = None
         while spaces_moved != spaces_to_move:
             move_dir = self._determine_move_dir(
-                end_pos_x, end_pos_y, players, move_dir,
+                end_pos_x, end_pos_y, players, game_window, move_dir
             )
             if move_dir == 'up':
                 end_pos_y += 1
